@@ -14,8 +14,8 @@ let createAccountStub: ICreateAccount;
 describe('SignUp Controller', () => {
   beforeEach(() => {
     class EmailValidatorStub implements IEmailValidator {
-      isValid(email: string): Promise<boolean> {
-        return new Promise((resolve) => resolve(true));
+      isValid(email: string): boolean {
+        return true;
       }
     }
 
@@ -110,7 +110,7 @@ describe('SignUp Controller', () => {
   it('Should return 400 if a invalid email is provided', async () => {
     jest
       .spyOn(emailValidatorStub, 'isValid')
-      .mockImplementationOnce(async () => new Promise((resolve) => resolve(false)));
+      .mockReturnValueOnce(false);
 
     const httpRequest = {
       body: {
@@ -144,9 +144,15 @@ describe('SignUp Controller', () => {
   });
 
   it('Should return 500 if EmailValidator throws', async () => {
-    jest
-      .spyOn(emailValidatorStub, 'isValid')
-      .mockImplementationOnce(async () => new Promise((resolve, reject) => reject(new Error())));
+    class EmailValidatorStubError implements IEmailValidator {
+      isValid(email: string): boolean {
+        throw new Error();
+      }
+    }
+
+    emailValidatorStub = new EmailValidatorStubError();
+
+    sut = new SignUpController(emailValidatorStub, createAccountStub);
 
     const httpRequest = {
       body: {
