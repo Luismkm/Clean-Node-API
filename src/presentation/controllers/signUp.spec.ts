@@ -1,9 +1,12 @@
 import { SignUpController } from './signUp';
 import { MissingParamError, InvalidParamError, ServerError } from '../errors';
 import { IEmailValidator } from '../protocols';
+import { IAccount } from '../../domain/models/IAccount';
+import { ICreateAccountTest, ICreateAccount } from '../../domain/usecases/ICreateAccount';
 
 let sut: SignUpController;
 let emailValidatorStub: IEmailValidator;
+let createAccountStub: ICreateAccount;
 
 describe('SignUp Controller', () => {
   beforeEach(() => {
@@ -12,8 +15,22 @@ describe('SignUp Controller', () => {
         return true;
       }
     }
+
+    class CreateAccountStub implements ICreateAccount {
+      create(account: ICreateAccountTest): IAccount {
+        const fakeAccount = {
+          id: 'valid_id',
+          name: 'valid_name',
+          email: 'valid_email@mail.com',
+        };
+        return fakeAccount;
+      }
+    }
+
     emailValidatorStub = new EmailValidatorStub();
-    sut = new SignUpController(emailValidatorStub);
+    createAccountStub = new CreateAccountStub();
+
+    sut = new SignUpController(emailValidatorStub, createAccountStub);
   });
 
   it('Should return 400 if no name is provided', () => {
@@ -142,5 +159,24 @@ describe('SignUp Controller', () => {
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
+  });
+
+  it('Should call AddAccount with correct values', () => {
+    const createSpy = jest.spyOn(createAccountStub, 'create');
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+      },
+    };
+
+    sut.handle(httpRequest);
+    expect(createSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@mail.com',
+      password: 'any_password',
+    });
   });
 });
