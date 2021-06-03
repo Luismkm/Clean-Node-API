@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --silent --noStackTrace --runInBand",
-    "test:verbose": "jest -runInBand",
-    "test:unit": "jest -- --watch -c jest.unit.config.js",
-    "test:integration": "jest -- --watch -c jest.integraion.config.js",
-    "test:ci": "npm test -- --coverage"
+    "test:verbose": "yarn test -runInBand",
+    "test:unit": "yarn test -- --watch -c jest.unit.config.js",
+    "test:integration": "yarn test -- --watch -c jest.integraion.config.js",
+    "test:ci": "yarn test -- --coverage"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
