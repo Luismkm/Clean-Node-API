@@ -5,7 +5,11 @@
   "author": "Luismkm <luismarcelo13@yahoo.com.br>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --watch"
+    "test": "jest --silent --noStackTrace --runInBand",
+    "test:verbose": "jest -runInBand",
+    "test:unit": "jest -- --watch -c jest.unit.config.js",
+    "test:integration": "jest -- --watch -c jest.integraion.config.js",
+    "test:ci": "npm test -- --coverage"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
