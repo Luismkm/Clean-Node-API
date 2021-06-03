@@ -1,8 +1,11 @@
 import { SignUpController } from './signUp';
-import { MissingParamError, InvalidParamError, ServerError } from '../errors';
-import { IEmailValidator } from '../protocols';
-import { IAccount } from '../../domain/models/IAccount';
-import { ICreateAccountTest, ICreateAccount } from '../../domain/usecases/ICreateAccount';
+import { MissingParamError, InvalidParamError, ServerError } from '../../errors';
+import {
+  IEmailValidator,
+  IAccount,
+  ICreateAccountTest,
+  ICreateAccount,
+} from './signupProtocols';
 
 let sut: SignUpController;
 let emailValidatorStub: IEmailValidator;
