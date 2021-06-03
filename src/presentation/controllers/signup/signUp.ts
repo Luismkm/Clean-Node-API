@@ -18,7 +18,7 @@ export class SignUpController implements IController {
     this.createAccount = createAccount;
   }
 
-  handle(httpRequest: IHttpRequest): IHttpResponse {
+  async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation'];
 
@@ -36,13 +36,13 @@ export class SignUpController implements IController {
         return badRequest(new InvalidParamError('passwordConfirmation'));
       }
 
-      const isValid = this.emailValidator.isValid(email);
+      const isValid = await this.emailValidator.isValid(email);
 
       if (!isValid) {
         return badRequest(new InvalidParamError('email'));
       }
 
-      const account = this.createAccount.create({
+      const account = await this.createAccount.create({
         name,
         email,
         password,

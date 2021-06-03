@@ -7,5 +7,5 @@ export interface ICreateAccountTest {
 }
 
 export interface ICreateAccount {
-  create(account: ICreateAccountTest): IAccount
+  create(account: ICreateAccountTest): Promise<IAccount>
 }
