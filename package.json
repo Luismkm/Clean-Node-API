@@ -5,7 +5,7 @@
   "author": "Luismkm <luismarcelo13@yahoo.com.br>",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
