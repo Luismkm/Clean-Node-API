@@ -29,7 +29,7 @@ describe('DbCreateAccount Usecase', () => {
   it('Should throw if Encrypter throws', async () => {
     jest
       .spyOn(encrypterStub, 'encrypt')
-      .mockRejectedValueOnce(new Promise((resolve, reject) => reject(new Error())));
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
     const accountData = {
       name: 'valid_name',
       email: 'valid_email',
