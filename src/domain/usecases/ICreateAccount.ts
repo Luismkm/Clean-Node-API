@@ -1,11 +1,11 @@
 import { IAccount } from '../models/IAccount';
 
-export interface ICreateAccountTest {
+export interface ICreateAccountDTO {
   name: string,
   email: string,
   password: string,
 }
 
 export interface ICreateAccount {
-  create(account: ICreateAccountTest): Promise<IAccount>
+  create(account: ICreateAccountDTO): Promise<IAccount>
 }
