@@ -1,16 +1,20 @@
 import {
-  IAccount, ICreateAccount, ICreateAccountDTO, IEncrypter,
+  IAccount, ICreateAccount, ICreateAccountDTO, ICreateAccountRepository, IEncrypter,
 } from './DbCreateAccountProtocols';
 
 export class DbCreateAccount implements ICreateAccount {
-  private readonly encrypter: IEncrypter
+  private readonly encrypter: IEncrypter;
 
-  constructor(encrypter: IEncrypter) {
+  private readonly createAccountRepository: ICreateAccountRepository;
+
+  constructor(encrypter: IEncrypter, createAccountRepository: ICreateAccountRepository) {
     this.encrypter = encrypter;
+    this.createAccountRepository = createAccountRepository;
   }
 
   async create(account: ICreateAccountDTO): Promise<IAccount> {
-    await this.encrypter.encrypt(account.password);
+    const hashedPassword = await this.encrypter.encrypt(account.password);
+    await this.createAccountRepository.create({ ...account, password: hashedPassword });
     return new Promise((resolve) => resolve(null));
   }
 }
