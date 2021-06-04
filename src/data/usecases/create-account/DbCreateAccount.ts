@@ -1,6 +1,6 @@
-import { IAccount } from '../../../domain/models/IAccount';
-import { ICreateAccount, ICreateAccountDTO } from '../../../domain/usecases/ICreateAccount';
-import { IEncrypter } from '../../protocols/IEncrypter';
+import {
+  IAccount, ICreateAccount, ICreateAccountDTO, IEncrypter,
+} from './DbCreateAccountProtocols';
 
 export class DbCreateAccount implements ICreateAccount {
   private readonly encrypter: IEncrypter
