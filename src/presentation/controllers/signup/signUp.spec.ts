@@ -7,10 +7,6 @@ import {
   ICreateAccount,
 } from './signupProtocols';
 
-let sut: SignUpController;
-let emailValidatorStub: IEmailValidator;
-let createAccountStub: ICreateAccount;
-
 class EmailValidatorStub implements IEmailValidator {
   isValid(email: string): boolean {
     return true;
@@ -27,6 +23,10 @@ class CreateAccountStub implements ICreateAccount {
     return new Promise((resolve) => resolve(fakeAccount));
   }
 }
+
+let sut: SignUpController;
+let emailValidatorStub: EmailValidatorStub;
+let createAccountStub: CreateAccountStub;
 
 describe('SignUp Controller', () => {
   beforeEach(() => {
