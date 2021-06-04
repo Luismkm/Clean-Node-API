@@ -3,7 +3,7 @@ import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
 import {
   IEmailValidator,
   IAccount,
-  ICreateAccountTest,
+  ICreateAccountDTO,
   ICreateAccount,
 } from './signupProtocols';
 
@@ -11,25 +11,25 @@ let sut: SignUpController;
 let emailValidatorStub: IEmailValidator;
 let createAccountStub: ICreateAccount;
 
+class EmailValidatorStub implements IEmailValidator {
+  isValid(email: string): boolean {
+    return true;
+  }
+}
+
+class CreateAccountStub implements ICreateAccount {
+  async create(account: ICreateAccountDTO): Promise<IAccount> {
+    const fakeAccount = {
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+    };
+    return new Promise((resolve) => resolve(fakeAccount));
+  }
+}
+
 describe('SignUp Controller', () => {
   beforeEach(() => {
-    class EmailValidatorStub implements IEmailValidator {
-      isValid(email: string): boolean {
-        return true;
-      }
-    }
-
-    class CreateAccountStub implements ICreateAccount {
-      async create(account: ICreateAccountTest): Promise<IAccount> {
-        const fakeAccount = {
-          id: 'valid_id',
-          name: 'valid_name',
-          email: 'valid_email@mail.com',
-        };
-        return new Promise((resolve) => resolve(fakeAccount));
-      }
-    }
-
     emailValidatorStub = new EmailValidatorStub();
     createAccountStub = new CreateAccountStub();
 
