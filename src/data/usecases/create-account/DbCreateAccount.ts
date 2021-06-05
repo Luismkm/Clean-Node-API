@@ -14,7 +14,9 @@ export class DbCreateAccount implements ICreateAccount {
 
   async create(account: ICreateAccountDTO): Promise<IAccount> {
     const hashedPassword = await this.encrypter.encrypt(account.password);
-    await this.createAccountRepository.create({ ...account, password: hashedPassword });
-    return new Promise((resolve) => resolve(null));
+    const accountCreated = await this.createAccountRepository.create(
+      { ...account, password: hashedPassword },
+    );
+    return accountCreated;
   }
 }
