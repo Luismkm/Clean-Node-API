@@ -1,18 +1,11 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils')
-const { compilerOptions } = require('./tsconfig.json')
-
 module.exports = {
-  clearMocks: true,
-  collectCoverage: true,
-  collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts'
-  ],
-  coverageDirectory: 'coverage',
-  coverageReporters: [
-    "text-summary",
-    "lcov",
-  ],
-  preset: 'ts-jest',
-  testEnvironment: "node",
+ roots: ['<rootDir>/src'],
+ collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+ coverageDirectory: 'coverage',
+ testEnvironment: 'node',
+ preset: '@shelf/jest-mongodb',
+ transform: {
+   '.+\\.ts$': 'ts-jest'
+ }
 
 };
