@@ -5,6 +5,7 @@
   "author": "Luismkm <luismarcelo13@yahoo.com.br>",
   "license": "MIT",
   "scripts": {
+    "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/main/server.ts",
     "test": "jest --silent --noStackTrace --runInBand",
     "test:verbose": "yarn test -runInBand",
     "test:unit": "yarn test -- --watch -c jest.unit.config.js",
@@ -14,6 +15,7 @@
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.5",
     "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.12",
     "@types/jest": "^26.0.23",
     "@types/mongodb": "^3.6.17",
     "@types/node": "^15.6.2",
@@ -29,10 +31,12 @@
     "jest": "^27.0.3",
     "prettier": "^2.3.0",
     "ts-jest": "^27.0.2",
+    "ts-node-dev": "^1.1.6",
     "typescript": "^4.3.2"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
     "mongodb": "^3.6.9",
     "validator": "^13.6.0"
   }
