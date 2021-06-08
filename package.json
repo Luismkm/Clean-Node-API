@@ -7,7 +7,7 @@
   "scripts": {
     "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/main/server.ts",
     "test": "jest --silent --noStackTrace --runInBand",
-    "test:verbose": "yarn test -runInBand",
+    "test:verbose": "jest -runInBand",
     "test:unit": "yarn test -- --watch -c jest.unit.config.js",
     "test:integration": "yarn test -- --watch -c jest.integration.config.js",
     "test:ci": "yarn test -- --coverage"
