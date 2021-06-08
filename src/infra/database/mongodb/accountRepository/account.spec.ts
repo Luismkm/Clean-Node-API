@@ -13,8 +13,8 @@ describe('Account Mongo Repository', () => {
   });
 
   beforeEach(async () => {
-    const accountCollection = MongoHelper.getCollection('accounts');
-    await accountCollection.deleteMany({});
+    const accountCollection = await MongoHelper.getCollection('accounts');
+    accountCollection.deleteMany({});
 
     sut = new AccountMongoRepository();
   });
