@@ -6,6 +6,6 @@ export const adaptRoute = (controller: IController) => async (req: Request, res:
     body: req.body,
   };
 
-  const IHttpResponse = await controller.handle(httpRequest);
-  res.status(IHttpResponse.statusCode).json(IHttpResponse.body);
+  const httpResponse = await controller.handle(httpRequest);
+  res.status(httpResponse.statusCode).json(httpResponse.body);
 };
