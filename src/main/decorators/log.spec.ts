@@ -1,5 +1,8 @@
-import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols';
 import { LogControllerDecorator } from './log';
+import { serverError } from '../../presentation/helpers/http-helper';
+
+import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols';
+import { ILogErrorRepository } from '../../data/protocols/ILogErrorRepository';
 
 class ControllerStub implements IController {
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
@@ -14,13 +17,21 @@ class ControllerStub implements IController {
   }
 }
 
+class LogErrorRepositoryStub implements ILogErrorRepository {
+  async log(stack: string): Promise<void> {
+    return new Promise((resolve) => resolve());
+  }
+}
+
 let controllerStub: ControllerStub;
+let logErrorRepositoryStub: ILogErrorRepository;
 let sut: LogControllerDecorator;
 
 describe('LogController Decoratoor', () => {
   beforeEach(() => {
     controllerStub = new ControllerStub();
-    sut = new LogControllerDecorator(controllerStub);
+    logErrorRepositoryStub = new LogErrorRepositoryStub();
+    sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub);
   });
 
   it('Should call controller handle ', async () => {
@@ -53,5 +64,27 @@ describe('LogController Decoratoor', () => {
         name: 'any_name',
       },
     });
+  });
+
+  it('Should call LogErrorRepository with correct error if controller returns a server error', async () => {
+    const fakeError = new Error();
+    fakeError.stack = 'any_stack';
+    const error = serverError(fakeError);
+
+    const logSpy = jest.spyOn(logErrorRepositoryStub, 'log');
+
+    jest.spyOn(controllerStub, 'handle')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(error)));
+
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        name: 'any_name',
+        passowrd: 'any_password',
+        passwordConfirmation: 'any_password',
+      },
+    };
+    await sut.handle(httpRequest);
+    expect(logSpy).toHaveBeenCalledWith('any_stack');
   });
 });
