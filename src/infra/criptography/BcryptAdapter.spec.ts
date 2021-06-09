@@ -11,13 +11,13 @@ describe('Bcrypt Adapter', () => {
     sut = new BcryptAdapter(salt);
   });
 
-  test('should call bcrypt with correct value', async () => {
+  it('should call bcrypt with correct value', async () => {
     const hashSpy = jest.spyOn(bcrypt, 'hash');
     await sut.encrypt('any_value');
     expect(hashSpy).toHaveBeenCalledWith('any_value', salt);
   });
 
-  test('should return a hash on success', async () => {
+  it('should return a hash on success', async () => {
     const hash = await sut.encrypt('any_value');
     expect(hash).toBe('hash');
   });
