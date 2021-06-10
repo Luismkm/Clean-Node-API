@@ -2,14 +2,35 @@ import { LoginController } from './login';
 import { badRequest } from '../../helpers/http-helper';
 import { MissingParamError } from '../../errors';
 
-describe('Login Controller', () => {
-  const makeSut = (): any => {
-    const sut = new LoginController();
-    return sut;
-  };
+import { IEmailValidator } from '../../protocols/IEmailValidator';
 
+interface ISutTypes {
+  sut: LoginController,
+  emailValidatorStub: IEmailValidator
+}
+
+const makeEmailValidator = (): IEmailValidator => {
+  class EmailValidatorStub implements IEmailValidator {
+    isValid(email: string): boolean {
+      return true;
+    }
+  }
+
+  return new EmailValidatorStub();
+};
+
+const makeSut = (): ISutTypes => {
+  const emailValidatorStub = makeEmailValidator();
+  const sut = new LoginController(emailValidatorStub);
+  return {
+    sut,
+    emailValidatorStub,
+  };
+};
+
+describe('Login Controller', () => {
   it('Should return 400 if no email is provided', async () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const httpRequest = {
       body: {
         password: 'any_password',
@@ -21,7 +42,7 @@ describe('Login Controller', () => {
   });
 
   it('Should return 400 if no password is provided', async () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email',
@@ -30,5 +51,19 @@ describe('Login Controller', () => {
     const httpResponse = await sut.handle(httpRequest);
 
     expect(httpResponse).toEqual(badRequest(new MissingParamError('password')));
+  });
+
+  it('Should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorStub } = makeSut();
+    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid');
+    const httpRequest = {
+      body: {
+        email: 'any_email',
+        password: 'any_password',
+      },
+    };
+    await sut.handle(httpRequest);
+
+    expect(isValidSpy).toHaveBeenCalledWith('any_email');
   });
 });
