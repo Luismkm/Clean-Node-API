@@ -28,6 +28,12 @@ let sut: DbCreateAccount;
 let encrypterStub: EncrypterStub;
 let createAccountRepositoryStub: CreateAccountRepositoryStub;
 
+const makeFakeAccountDTO = (): ICreateAccountDTO => ({
+  name: 'valid_name',
+  email: 'valid_email',
+  password: 'valid_password',
+});
+
 describe('DbCreateAccount Usecase', () => {
   beforeEach(() => {
     encrypterStub = new EncrypterStub();
@@ -37,12 +43,8 @@ describe('DbCreateAccount Usecase', () => {
 
   it('Should call Encrypter with correct password', async () => {
     const encryptSpy = jest.spyOn(encrypterStub, 'encrypt');
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
-    };
-    await sut.create(accountData);
+    await sut.create(makeFakeAccountDTO());
+
     expect(encryptSpy).toHaveBeenCalledWith('valid_password');
   });
 
@@ -50,23 +52,15 @@ describe('DbCreateAccount Usecase', () => {
     jest
       .spyOn(encrypterStub, 'encrypt')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
-    };
-    const promise = sut.create(accountData);
+    const promise = sut.create(makeFakeAccountDTO());
+
     await expect(promise).rejects.toThrow();
   });
 
   it('Should call CreateAccountRepository with correct values', async () => {
     const createSpy = jest.spyOn(createAccountRepositoryStub, 'create');
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
-    };
-    await sut.create(accountData);
+    await sut.create(makeFakeAccountDTO());
+
     expect(createSpy).toHaveBeenCalledWith({
       name: 'valid_name',
       email: 'valid_email',
@@ -78,22 +72,14 @@ describe('DbCreateAccount Usecase', () => {
     jest
       .spyOn(createAccountRepositoryStub, 'create')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
-    };
-    const promise = sut.create(accountData);
+    const promise = sut.create(makeFakeAccountDTO());
+
     await expect(promise).rejects.toThrow();
   });
 
   it('Should return an account on success', async () => {
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
-    };
-    const account = await sut.create(accountData);
+    const account = await sut.create(makeFakeAccountDTO());
+
     expect(account).toEqual({
       id: 'valid_id',
       name: 'valid_name',
