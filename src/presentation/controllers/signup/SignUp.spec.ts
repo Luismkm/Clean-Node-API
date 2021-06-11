@@ -8,45 +8,62 @@ import {
   IHttpRequest,
 } from './signupProtocols';
 
-class EmailValidatorStub implements IEmailValidator {
-  isValid(email: string): boolean {
-    return true;
+const makeEmailValidator = (): IEmailValidator => {
+  class EmailValidatorStub implements IEmailValidator{
+
+    isValid(email: string): boolean {
+      return true   
+    }
+  }
+  return new EmailValidatorStub
+}
+
+const makeCreateAccount = (): ICreateAccount => {
+  class CreateAccountStub implements ICreateAccount {
+
+    async create(account: ICreateAccountDTO): Promise<IAccount>{
+      return new Promise(resolve => resolve(makeFakeAccount()))
+    }
+  }
+  return new CreateAccountStub()
+}
+
+interface ISutTypes {
+  sut: SignUpController
+  emailValidatorStub: IEmailValidator
+  createAccountStub: ICreateAccount
+}
+
+const makeSut = (): ISutTypes => {
+  const emailValidatorStub = makeEmailValidator()
+  const createAccountStub = makeCreateAccount()
+  const sut = new SignUpController(emailValidatorStub, createAccountStub)
+  return {
+    sut,
+    emailValidatorStub,
+    createAccountStub
   }
 }
 
-class CreateAccountStub implements ICreateAccount {
-  async create(account: ICreateAccountDTO): Promise<IAccount> {
-    const fakeAccount = {
-      id: 'valid_id',
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-    };
-    return new Promise((resolve) => resolve(fakeAccount));
-  }
-}
-
-let sut: SignUpController;
-let emailValidatorStub: EmailValidatorStub;
-let createAccountStub: CreateAccountStub;
+const makeFakeAccount = (): IAccount => ({
+  id: 'valid_id',
+  name: 'valid_name',
+  email: 'valid_email'
+})
 
 const makeFakeRequest = (): IHttpRequest => ({
   body: {
     name: 'any_name',
-    email: 'any_email@mail.com',
+    email: 'any_email',
     password: 'any_password',
-    passwordConfirmation: 'any_password',
-  },
-});
+    passwordConfirmation: 'any_password'
+  }
+})
 
 describe('SignUp Controller', () => {
-  beforeEach(() => {
-    emailValidatorStub = new EmailValidatorStub();
-    createAccountStub = new CreateAccountStub();
-
-    sut = new SignUpController(emailValidatorStub, createAccountStub);
-  });
-
   it('Should return 400 if no name is provided', async () => {
+    const { sut } = makeSut()
+
     const httpRequest = {
       body: {
         email: 'any_email@mail.com',
@@ -62,6 +79,8 @@ describe('SignUp Controller', () => {
   });
 
   it('Should return 400 if no email is provided', async () => {
+    const { sut } = makeSut()
+
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -77,6 +96,8 @@ describe('SignUp Controller', () => {
   });
 
   it('Should return 400 if no password is provided', async () => {
+    const { sut } = makeSut()
+
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -92,6 +113,8 @@ describe('SignUp Controller', () => {
   });
 
   it('Should return 400 if no password confirmation is provided', async () => {
+    const { sut } = makeSut()
+
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -107,6 +130,8 @@ describe('SignUp Controller', () => {
   });
 
   it('Should return 400 if password confirmation fails', async () => {
+    const { sut } = makeSut()
+
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -123,6 +148,7 @@ describe('SignUp Controller', () => {
   });
 
   it('Should return 400 if a invalid email is provided', async () => {
+    const { sut, emailValidatorStub } = makeSut()
     jest
       .spyOn(emailValidatorStub, 'isValid')
       .mockReturnValueOnce(false);
@@ -134,24 +160,21 @@ describe('SignUp Controller', () => {
   });
 
   it('Should call EmailValidator with correct email', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+
     const isValidSpy = jest
       .spyOn(emailValidatorStub, 'isValid');
 
     await sut.handle(makeFakeRequest());
 
-    expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com');
+    expect(isValidSpy).toHaveBeenCalledWith('any_email');
   });
 
   it('Should return 500 if EmailValidator throws', async () => {
-    class EmailValidatorStubError implements IEmailValidator {
-      isValid(email: string): boolean {
-        throw new Error();
-      }
-    }
-
-    emailValidatorStub = new EmailValidatorStubError();
-
-    sut = new SignUpController(emailValidatorStub, createAccountStub);
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
 
     const httpResponse = await sut.handle(makeFakeRequest());
 
@@ -160,6 +183,8 @@ describe('SignUp Controller', () => {
   });
 
   it('Should return 500 if CreateAccount throws', async () => {
+    const { sut, createAccountStub } = makeSut()
+
     jest
       .spyOn(createAccountStub, 'create')
       .mockImplementationOnce(() => {
@@ -173,23 +198,41 @@ describe('SignUp Controller', () => {
   });
 
   it('Should call AddAccount with correct values', async () => {
+    const { sut, createAccountStub } = makeSut()
+
     const createSpy = jest.spyOn(createAccountStub, 'create');
     await sut.handle(makeFakeRequest());
 
     expect(createSpy).toHaveBeenCalledWith({
       name: 'any_name',
-      email: 'any_email@mail.com',
+      email: 'any_email',
       password: 'any_password',
     });
   });
 
   it('Should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+
     const httpResponse = await sut.handle(makeFakeRequest());
+
     expect(httpResponse.statusCode).toBe(200);
     expect(httpResponse.body).toEqual({
       id: 'valid_id',
       name: 'valid_name',
-      email: 'valid_email@mail.com',
+      email: 'valid_email',
+    });
+  });
+
+  it('Should call Validation with correct values', async () => {
+    const { sut, createAccountStub } = makeSut()
+
+    const createSpy = jest.spyOn(createAccountStub, 'create');
+    await sut.handle(makeFakeRequest());
+
+    expect(createSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email',
+      password: 'any_password',
     });
   });
 });
