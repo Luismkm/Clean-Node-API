@@ -1,10 +1,18 @@
 import { InvalidParamError, MissingParamError } from '../../errors';
-import { badRequest, serverError, success, unauthorized } from '../../helpers/http-helper';
+import {
+  badRequest,
+  serverError,
+  success,
+  unauthorized,
+} from '../../helpers/http-helper';
 
-import { IController, IHttpRequest, IHttpResponse, IEmailValidator, IAuthentication } from './loginProtocols';
+import {
+  IController, IHttpRequest, IHttpResponse, IEmailValidator, IAuthentication,
+} from './loginProtocols';
 
 export class LoginController implements IController {
   private readonly emailValidator:IEmailValidator;
+
   private readonly authentication:IAuthentication;
 
   constructor(emailValidator: IEmailValidator, authentication: IAuthentication) {
@@ -22,21 +30,21 @@ export class LoginController implements IController {
         }
       }
       const { email, password } = httpRequest.body;
-      
+
       const isValid = this.emailValidator.isValid(email);
 
       if (!isValid) {
         return badRequest(new InvalidParamError('email'));
       }
 
-      const accessToken = await this.authentication.auth(email, password)
-      if(!accessToken){
-        return unauthorized()
+      const accessToken = await this.authentication.auth(email, password);
+      if (!accessToken) {
+        return unauthorized();
       }
 
-      return success({ accessToken })
+      return success({ accessToken });
     } catch (error) {
-      return serverError(error)
+      return serverError(error);
     }
   }
 }
