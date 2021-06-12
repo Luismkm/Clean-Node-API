@@ -3,7 +3,6 @@ import { MissingParamError, ServerError } from '../../errors';
 import { success, serverError, badRequest } from '../../helpers/http-helper';
 
 import {
-  IEmailValidator,
   IAccount,
   ICreateAccountDTO,
   ICreateAccount,
