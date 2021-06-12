@@ -1,3 +1,3 @@
 export * from '../../protocols';
-export * from '../../protocols/IEmailValidator';
+export * from '../../helpers/validators/IValidation';
 export * from '../../../domain/usecases/IAuthentication';
