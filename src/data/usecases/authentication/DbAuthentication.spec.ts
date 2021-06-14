@@ -1,11 +1,12 @@
 import { DbAuthentication } from './DbAuthentication';
-
-import { IAccount } from '../../../domain/models/IAccount';
-import { IAuthenticationDTO } from '../../../domain/usecases/IAuthentication';
-import { ILoadAccountByEmailRepository } from '../../protocols/db/ILoadAccountByEmailRepository';
-import { IHashComparer } from '../../protocols/criptography/IHashComparer';
-import { ITokenGenerator } from '../../protocols/criptography/ITokenGenerator';
-import { IUpdateAccessTokenRepository } from '../../protocols/db/IUpdateAccessTokenRepository';
+import {
+  IAccount,
+  IAuthenticationDTO,
+  ILoadAccountByEmailRepository,
+  IHashComparer,
+  ITokenGenerator,
+  IUpdateAccessTokenRepository,
+} from './DbAuthenticationProtocols';
 
 const makeFakeAccount = (): IAccount => ({
   id: 'any_id',
