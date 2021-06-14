@@ -1,4 +1,4 @@
-import { ICreateAccountRepository } from '../../../../data/protocols/ICreateAccountRepository';
+import { ICreateAccountRepository } from '../../../../data/protocols/db/ICreateAccountRepository';
 import { ICreateAccountDTO } from '../../../../domain/usecases/ICreateAccount';
 import { IAccount } from '../../../../domain/models/IAccount';
 import { MongoHelper } from '../helpers/mongoHelper';

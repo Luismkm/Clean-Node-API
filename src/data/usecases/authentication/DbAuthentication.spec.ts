@@ -2,7 +2,7 @@ import { DbAuthentication } from './DbAuthentication';
 
 import { IAccount } from '../../../domain/models/IAccount';
 import { IAuthenticationDTO } from '../../../domain/usecases/IAuthentication';
-import { ILoadAccountByEmailRepository } from '../../protocols/ILoadAccountByEmailRepository';
+import { ILoadAccountByEmailRepository } from '../../protocols/db/ILoadAccountByEmailRepository';
 
 const makeFakeAccount = (): IAccount => ({
   id: 'any_id',

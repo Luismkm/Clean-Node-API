@@ -1,5 +1,5 @@
 import { IAuthentication, IAuthenticationDTO } from '../../../domain/usecases/IAuthentication';
-import { ILoadAccountByEmailRepository } from '../../protocols/ILoadAccountByEmailRepository';
+import { ILoadAccountByEmailRepository } from '../../protocols/db/ILoadAccountByEmailRepository';
 
 export class DbAuthentication implements IAuthentication {
   private readonly loadAccountByEmailRepository: ILoadAccountByEmailRepository
