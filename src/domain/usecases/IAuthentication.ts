@@ -1,3 +1,8 @@
+export interface IAuthenticationDTO {
+  email: string
+  password: string
+}
+
 export interface IAuthentication {
-  auth(email: string, password: string): Promise<string>
+  auth(authentication: IAuthenticationDTO): Promise<string>
 }
