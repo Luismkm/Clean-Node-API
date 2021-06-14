@@ -14,6 +14,7 @@ const makeFakeAccount = (): IAccount => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email',
+  password: 'valid_pasword',
 });
 
 const makeFakeRequest = (): IHttpRequest => ({

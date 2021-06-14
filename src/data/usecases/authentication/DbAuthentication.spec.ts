@@ -10,6 +10,7 @@ describe('DbAuthentication UseCase', () => {
           id: 'any_id',
           name: 'any_name',
           email: 'any_email@mail.com',
+          password: 'any_password',
         };
         return new Promise((resolve) => resolve(account));
       }
