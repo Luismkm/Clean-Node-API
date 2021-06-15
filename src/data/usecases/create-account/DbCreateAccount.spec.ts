@@ -1,13 +1,13 @@
 import { DbCreateAccount } from './DbCreateAccount';
 import {
-  IEncrypter,
+  IHasher,
   ICreateAccountDTO,
   IAccount,
   ICreateAccountRepository,
 } from './DbCreateAccountProtocols';
 
-class EncrypterStub implements IEncrypter {
-  async encrypt(value: string): Promise<string> {
+class HasherStub implements IHasher {
+  async hash(value: string): Promise<string> {
     return new Promise((resolve) => resolve('hashed_password'));
   }
 }
@@ -25,7 +25,7 @@ class CreateAccountRepositoryStub implements ICreateAccountRepository {
 }
 
 let sut: DbCreateAccount;
-let encrypterStub: EncrypterStub;
+let hasherStub: HasherStub;
 let createAccountRepositoryStub: CreateAccountRepositoryStub;
 
 const makeFakeAccountDTO = (): ICreateAccountDTO => ({
@@ -36,21 +36,21 @@ const makeFakeAccountDTO = (): ICreateAccountDTO => ({
 
 describe('DbCreateAccount Usecase', () => {
   beforeEach(() => {
-    encrypterStub = new EncrypterStub();
+    hasherStub = new HasherStub();
     createAccountRepositoryStub = new CreateAccountRepositoryStub();
-    sut = new DbCreateAccount(encrypterStub, createAccountRepositoryStub);
+    sut = new DbCreateAccount(hasherStub, createAccountRepositoryStub);
   });
 
-  it('Should call Encrypter with correct password', async () => {
-    const encryptSpy = jest.spyOn(encrypterStub, 'encrypt');
+  it('Should call Hasher with correct password', async () => {
+    const hashSpy = jest.spyOn(hasherStub, 'hash');
     await sut.create(makeFakeAccountDTO());
 
-    expect(encryptSpy).toHaveBeenCalledWith('valid_password');
+    expect(hashSpy).toHaveBeenCalledWith('valid_password');
   });
 
-  it('Should throw if Encrypter throws', async () => {
+  it('Should throw if Hasher throws', async () => {
     jest
-      .spyOn(encrypterStub, 'encrypt')
+      .spyOn(hasherStub, 'hash')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
     const promise = sut.create(makeFakeAccountDTO());
 
@@ -68,7 +68,7 @@ describe('DbCreateAccount Usecase', () => {
     });
   });
 
-  it('Should throw if Encrypter throws', async () => {
+  it('Should throw if CreateAccountRepository throws', async () => {
     jest
       .spyOn(createAccountRepositoryStub, 'create')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
