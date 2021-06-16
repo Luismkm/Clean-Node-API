@@ -1,10 +1,11 @@
 import { DbAuthentication } from './DbAuthentication';
+
+import { ILoadAccountByEmailRepository } from '../../protocols/db/account/ILoadAccountByEmailRepository';
+import { IUpdateAccessTokenRepository } from '../../protocols/db/account/IUpdateAccessTokenRepository';
 import {
   IAccount,
   IAuthenticationDTO,
-  ILoadAccountByEmailRepository,
   IHashComparer,
-  IUpdateAccessTokenRepository,
   IEncrypter,
 } from './DbAuthenticationProtocols';
 

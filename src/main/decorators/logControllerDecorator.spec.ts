@@ -1,8 +1,8 @@
-import { LogControllerDecorator } from './log';
+import { LogControllerDecorator } from './LogControllerDecorator';
 import { serverError } from '../../presentation/helpers/http-helper';
 
 import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols';
-import { ILogErrorRepository } from '../../data/protocols/db/ILogErrorRepository';
+import { ILogErrorRepository } from '../../data/protocols/db/log/ILogErrorRepository';
 
 class ControllerStub implements IController {
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {

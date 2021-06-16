@@ -11,7 +11,7 @@ import {
   IHttpResponse,
   IValidation,
   IAuthentication,
-} from './loginProtocols';
+} from './loginControllerProtocols';
 
 export class LoginController implements IController {
   private readonly validation:IValidation;

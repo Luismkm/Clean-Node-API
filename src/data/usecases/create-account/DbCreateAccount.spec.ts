@@ -1,9 +1,10 @@
 import { DbCreateAccount } from './DbCreateAccount';
+
+import { ICreateAccountRepository } from '../../protocols/db/account/ICreateAccountRepository';
 import {
   IHasher,
   ICreateAccountDTO,
   IAccount,
-  ICreateAccountRepository,
 } from './DbCreateAccountProtocols';
 
 class HasherStub implements IHasher {

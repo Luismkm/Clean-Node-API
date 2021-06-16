@@ -1,5 +1,6 @@
+import { ICreateAccountRepository } from '../../protocols/db/account/ICreateAccountRepository';
 import {
-  IAccount, ICreateAccount, ICreateAccountDTO, ICreateAccountRepository, IHasher,
+  IAccount, ICreateAccount, ICreateAccountDTO, IHasher,
 } from './DbCreateAccountProtocols';
 
 export class DbCreateAccount implements ICreateAccount {

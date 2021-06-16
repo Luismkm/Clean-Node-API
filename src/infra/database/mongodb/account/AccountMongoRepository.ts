@@ -1,9 +1,9 @@
-import { ICreateAccountRepository } from '../../../../data/protocols/db/ICreateAccountRepository';
+import { ICreateAccountRepository } from '../../../../data/protocols/db/account/ICreateAccountRepository';
 import { ICreateAccountDTO } from '../../../../domain/usecases/ICreateAccount';
 import { IAccount } from '../../../../domain/models/IAccount';
 import { MongoHelper } from '../helpers/mongoHelper';
-import { ILoadAccountByEmailRepository } from '../../../../data/protocols/db/ILoadAccountByEmailRepository';
-import { IUpdateAccessTokenRepository } from '../../../../data/protocols/db/IUpdateAccessTokenRepository';
+import { ILoadAccountByEmailRepository } from '../../../../data/protocols/db/account/ILoadAccountByEmailRepository';
+import { IUpdateAccessTokenRepository } from '../../../../data/protocols/db/account/IUpdateAccessTokenRepository';
 
 export class AccountMongoRepository implements
   ICreateAccountRepository,

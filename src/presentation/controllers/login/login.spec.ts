@@ -1,4 +1,4 @@
-import { LoginController } from './login';
+import { LoginController } from './LoginController';
 import { MissingParamError } from '../../errors';
 import {
   badRequest,
@@ -12,7 +12,7 @@ import {
   IAuthentication,
   IValidation,
   IAuthenticationDTO,
-} from './loginProtocols';
+} from './loginControllerProtocols';
 
 interface ISutTypes {
   sut: LoginController,

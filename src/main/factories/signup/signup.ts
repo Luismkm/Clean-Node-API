@@ -1,11 +1,11 @@
 import { SignUpController } from '../../../presentation/controllers/signup/SignUp';
 import { DbCreateAccount } from '../../../data/usecases/create-account/DbCreateAccount';
 import { BcryptAdapter } from '../../../infra/criptography/bcryptAdapter/BcryptAdapter';
-import { AccountMongoRepository } from '../../../infra/database/mongodb/accountRepository/Account';
 import { LogMongoRepository } from '../../../infra/database/mongodb/logRepository/log';
-import { LogControllerDecorator } from '../../decorators/log';
+import { AccountMongoRepository } from '../../../infra/database/mongodb/account/AccountMongoRepository';
+import { LogControllerDecorator } from '../../decorators/LogControllerDecorator';
 
-import { makeSignUpValidation } from './signupValidation';
+import { makeSignUpValidation } from './signupValidationFactory';
 
 import { IController } from '../../../presentation/protocols';
 
