@@ -2,13 +2,11 @@ import { IController, IHttpRequest, IHttpResponse } from '../../presentation/pro
 import { ILogErrorRepository } from '../../data/protocols/db/log/ILogErrorRepository';
 
 export class LogControllerDecorator implements IController {
-  private readonly controller: IController
+  constructor(
+    private readonly controller: IController,
+    private readonly logErrorRepository: ILogErrorRepository,
+  ) {
 
-  private readonly logErrorRepository: ILogErrorRepository
-
-  constructor(controller: IController, logErrorRepository: ILogErrorRepository) {
-    this.controller = controller;
-    this.logErrorRepository = logErrorRepository;
   }
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {

@@ -4,14 +4,10 @@ import {
 } from './DbCreateAccountProtocols';
 
 export class DbCreateAccount implements ICreateAccount {
-  private readonly hasher: IHasher;
-
-  private readonly createAccountRepository: ICreateAccountRepository;
-
-  constructor(hasher: IHasher, createAccountRepository: ICreateAccountRepository) {
-    this.hasher = hasher;
-    this.createAccountRepository = createAccountRepository;
-  }
+  constructor(
+    private readonly hasher: IHasher,
+    private readonly createAccountRepository: ICreateAccountRepository,
+  ) {}
 
   async create(account: ICreateAccountDTO): Promise<IAccount> {
     const hashedPassword = await this.hasher.hash(account.password);

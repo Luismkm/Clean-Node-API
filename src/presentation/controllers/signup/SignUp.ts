@@ -8,17 +8,10 @@ import {
 import { badRequest, serverError, success } from '../../helpers/http-helper';
 
 export class SignUpController implements IController {
-  private readonly createAccount: ICreateAccount
-
-  private readonly validation: IValidation
-
   constructor(
-    createAccount: ICreateAccount,
-    validation: IValidation,
-  ) {
-    this.createAccount = createAccount;
-    this.validation = validation;
-  }
+    private readonly createAccount: ICreateAccount,
+    private readonly validation: IValidation,
+  ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
