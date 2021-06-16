@@ -3,10 +3,12 @@ import { ICreateAccountDTO } from '../../../../domain/usecases/ICreateAccount';
 import { IAccount } from '../../../../domain/models/IAccount';
 import { MongoHelper } from '../helpers/mongoHelper';
 import { ILoadAccountByEmailRepository } from '../../../../data/protocols/db/ILoadAccountByEmailRepository';
+import { IUpdateAccessTokenRepository } from '../../../../data/protocols/db/IUpdateAccessTokenRepository';
 
 export class AccountMongoRepository implements
   ICreateAccountRepository,
-  ILoadAccountByEmailRepository {
+  ILoadAccountByEmailRepository,
+  IUpdateAccessTokenRepository {
   async create(account: ICreateAccountDTO): Promise<IAccount> {
     const accountCollection = await MongoHelper.getCollection('accounts');
     const result = await accountCollection.insertOne(account);
@@ -17,5 +19,16 @@ export class AccountMongoRepository implements
     const accountCollection = await MongoHelper.getCollection('accounts');
     const account = await accountCollection.findOne({ email });
     return account && MongoHelper.map(account);
+  }
+
+  async updateAccessToken(id: string, token: string): Promise<void> {
+    const accountCollection = await MongoHelper.getCollection('accounts');
+    await accountCollection.updateOne({
+      _id: id,
+    }, {
+      $set: {
+        accessToken: token,
+      },
+    });
   }
 }
