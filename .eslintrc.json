@@ -16,11 +16,14 @@
         "@typescript-eslint"
     ],
     "rules": {
+      "consistent-return": "off",
+      "no-empty-function": "off",
+      "no-useless-constructor": "off",
       "no-underscore-dangle": "off",
       "class-methods-use-this": "off",
       "import/prefer-default-export": "off",
       "no-restricted-syntax": "off",
-      "no-unused-vars": "warn",
+      "no-unused-vars": "off",
       "max-classes-per-file": "off",
       "import/no-extraneous-dependencies": "off",
       "import/extensions":[
