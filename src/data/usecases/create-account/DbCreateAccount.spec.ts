@@ -45,7 +45,6 @@ describe('DbCreateAccount Usecase', () => {
   it('Should call Hasher with correct password', async () => {
     const hashSpy = jest.spyOn(hasherStub, 'hash');
     await sut.create(makeFakeAccountDTO());
-
     expect(hashSpy).toHaveBeenCalledWith('valid_password');
   });
 
@@ -54,14 +53,12 @@ describe('DbCreateAccount Usecase', () => {
       .spyOn(hasherStub, 'hash')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
     const promise = sut.create(makeFakeAccountDTO());
-
     await expect(promise).rejects.toThrow();
   });
 
   it('Should call CreateAccountRepository with correct values', async () => {
     const createSpy = jest.spyOn(createAccountRepositoryStub, 'create');
     await sut.create(makeFakeAccountDTO());
-
     expect(createSpy).toHaveBeenCalledWith({
       name: 'valid_name',
       email: 'valid_email',
@@ -74,13 +71,11 @@ describe('DbCreateAccount Usecase', () => {
       .spyOn(createAccountRepositoryStub, 'create')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
     const promise = sut.create(makeFakeAccountDTO());
-
     await expect(promise).rejects.toThrow();
   });
 
   it('Should return an account on success', async () => {
     const account = await sut.create(makeFakeAccountDTO());
-
     expect(account).toEqual({
       id: 'valid_id',
       name: 'valid_name',
