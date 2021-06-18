@@ -8,6 +8,8 @@ import {
   ICreateAccount,
   IHttpRequest,
   IValidation,
+  IAuthentication,
+  IAuthenticationDTO,
 } from './signupProtocols';
 
 const makeFakeAccount = (): IAccount => ({
@@ -35,6 +37,15 @@ const makeCreateAccount = (): ICreateAccount => {
   return new CreateAccountStub();
 };
 
+const makeAuthentication = (): IAuthentication => {
+  class AuthenticationStub implements IAuthentication {
+    async auth(authentication: IAuthenticationDTO): Promise<string> {
+      return new Promise((resolve) => resolve('any_token'));
+    }
+  }
+  return new AuthenticationStub();
+};
+
 const makeValidation = (): IValidation => {
   class ValidationStub implements IValidation {
     validate(input: any): Error {
@@ -46,19 +57,22 @@ const makeValidation = (): IValidation => {
 
 interface ISutTypes {
   sut: SignUpController
+  authenticationStub: IAuthentication
   createAccountStub: ICreateAccount
   validationStub: IValidation
 }
 
 const makeSut = (): ISutTypes => {
+  const authenticationStub = makeAuthentication();
   const createAccountStub = makeCreateAccount();
   const validationStub = makeValidation();
 
-  const sut = new SignUpController(createAccountStub, validationStub);
+  const sut = new SignUpController(createAccountStub, validationStub, authenticationStub);
   return {
     sut,
     createAccountStub,
     validationStub,
+    authenticationStub,
   };
 };
 
@@ -101,5 +115,16 @@ describe('SignUp Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'));
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')));
+  });
+
+  it('Should call Authentication with correct values', async () => {
+    const { sut, authenticationStub } = makeSut();
+    const authSpy = jest.spyOn(authenticationStub, 'auth');
+    await sut.handle(makeFakeRequest());
+
+    expect(authSpy).toHaveBeenCalledWith({
+      email: 'any_email',
+      password: 'any_password',
+    });
   });
 });
