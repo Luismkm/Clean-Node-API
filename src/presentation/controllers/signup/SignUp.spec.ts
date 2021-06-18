@@ -1,6 +1,8 @@
 import { SignUpController } from './SignUp';
-import { MissingParamError, ServerError } from '../../errors';
-import { success, serverError, badRequest } from '../../helpers/http-helper';
+import { EmailInUseError, MissingParamError, ServerError } from '../../errors';
+import {
+  success, serverError, badRequest, forbidden,
+} from '../../helpers/http-helper';
 
 import {
   IAccount,
@@ -94,6 +96,14 @@ describe('SignUp Controller', () => {
       email: 'any_email',
       password: 'any_password',
     });
+  });
+
+  it('Should return 403 if CreateAccount returns null', async () => {
+    const { sut, createAccountStub } = makeSut();
+    jest.spyOn(createAccountStub, 'create')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()));
   });
 
   it('Should return 200 if valid data is provided', async () => {
