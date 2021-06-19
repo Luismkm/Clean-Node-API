@@ -8,5 +8,5 @@ export const makeDbCreateAccount = (): ICreateAccount => {
   const salt = 12;
   const bcryptAdapter = new BcryptAdapter(salt);
   const accountMongoRepository = new AccountMongoRepository();
-  return new DbCreateAccount(bcryptAdapter, accountMongoRepository);
+  return new DbCreateAccount(bcryptAdapter, accountMongoRepository, accountMongoRepository);
 };
