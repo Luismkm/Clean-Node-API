@@ -114,4 +114,11 @@ describe('DbCreateAccount Usecase', () => {
     const account = await sut.create(makeFakeAccountDTO());
     expect(account).toEqual(makeFakeAccount());
   });
+
+  it('Should call LoadAccountByEmailRepository with correct email', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut();
+    const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail');
+    await sut.create(makeFakeAccountDTO());
+    expect(loadSpy).toHaveBeenCalledWith('valid_email');
+  });
 });
