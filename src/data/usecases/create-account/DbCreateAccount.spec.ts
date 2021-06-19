@@ -115,6 +115,14 @@ describe('DbCreateAccount Usecase', () => {
     expect(account).toEqual(makeFakeAccount());
   });
 
+  it('Should return null if LoadAccountByEmailRepository not return null ', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut();
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(makeFakeAccount())));
+    const account = await sut.create(makeFakeAccountDTO());
+    expect(account).toBeNull();
+  });
+
   it('Should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail');
