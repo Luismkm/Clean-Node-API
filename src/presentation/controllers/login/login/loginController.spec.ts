@@ -1,13 +1,13 @@
 import { LoginController } from './LoginController';
-import { MissingParamError } from '../../errors';
+import { MissingParamError } from '../../../errors';
 import {
   badRequest,
   serverError,
   success,
   unauthorized,
-} from '../../helpers/http/http-helper';
+} from '../../../helpers/http/http-helper';
 
-import { IValidation } from '../../protocols/IValidation';
+import { IValidation } from '../../../protocols/IValidation';
 import {
   IHttpRequest,
   IAuthentication,

@@ -3,9 +3,9 @@ import {
   serverError,
   success,
   unauthorized,
-} from '../../helpers/http/http-helper';
+} from '../../../helpers/http/http-helper';
 
-import { IValidation } from '../../protocols/IValidation';
+import { IValidation } from '../../../protocols/IValidation';
 import {
   IController,
   IHttpRequest,

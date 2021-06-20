@@ -1,12 +1,12 @@
-import { EmailInUseError } from '../../errors';
+import { EmailInUseError } from '../../../errors';
 import {
   badRequest,
   forbidden,
   serverError,
   success,
-} from '../../helpers/http/http-helper';
+} from '../../../helpers/http/http-helper';
 
-import { IValidation } from '../../protocols/IValidation';
+import { IValidation } from '../../../protocols/IValidation';
 import {
   IHttpRequest,
   IHttpResponse,
