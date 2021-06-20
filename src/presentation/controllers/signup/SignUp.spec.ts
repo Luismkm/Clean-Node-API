@@ -2,7 +2,7 @@ import { SignUpController } from './SignUp';
 import { EmailInUseError, MissingParamError, ServerError } from '../../errors';
 import {
   success, serverError, badRequest, forbidden,
-} from '../../helpers/http-helper';
+} from '../../helpers/http/http-helper';
 
 import { IValidation } from '../../protocols/IValidation';
 import {

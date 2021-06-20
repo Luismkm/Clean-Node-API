@@ -4,7 +4,7 @@ import {
   forbidden,
   serverError,
   success,
-} from '../../helpers/http-helper';
+} from '../../helpers/http/http-helper';
 
 import { IValidation } from '../../protocols/IValidation';
 import {
