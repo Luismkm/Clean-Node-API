@@ -6,12 +6,12 @@ import {
   success,
 } from '../../helpers/http-helper';
 
+import { IValidation } from '../../protocols/IValidation';
 import {
   IHttpRequest,
   IHttpResponse,
   IController,
   ICreateAccount,
-  IValidation,
   IAuthentication,
 } from './signupProtocols';
 

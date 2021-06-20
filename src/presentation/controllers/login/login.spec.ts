@@ -7,10 +7,10 @@ import {
   unauthorized,
 } from '../../helpers/http-helper';
 
+import { IValidation } from '../../protocols/IValidation';
 import {
   IHttpRequest,
   IAuthentication,
-  IValidation,
   IAuthenticationDTO,
 } from './loginControllerProtocols';
 

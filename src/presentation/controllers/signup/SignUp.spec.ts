@@ -4,12 +4,12 @@ import {
   success, serverError, badRequest, forbidden,
 } from '../../helpers/http-helper';
 
+import { IValidation } from '../../protocols/IValidation';
 import {
   IAccount,
   ICreateAccountDTO,
   ICreateAccount,
   IHttpRequest,
-  IValidation,
   IAuthentication,
   IAuthenticationDTO,
 } from './signupProtocols';

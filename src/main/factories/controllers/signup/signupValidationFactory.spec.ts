@@ -4,8 +4,8 @@ import { makeSignUpValidation } from './signupValidationFactory';
 import { CompareFieldsValidation } from '../../../../presentation/helpers/validators/CompareFieldsValidation';
 import { EmailValidation } from '../../../../presentation/helpers/validators/EmailValidation';
 
-import { IValidation } from '../../../../presentation/helpers/validators/IValidation';
 import { IEmailValidator } from '../../../../presentation/protocols/IEmailValidator';
+import { IValidation } from '../../../../presentation/protocols/IValidation';
 
 jest.mock('../../../../presentation/helpers/validators/ValidationComposite');
 

@@ -5,11 +5,11 @@ import {
   unauthorized,
 } from '../../helpers/http-helper';
 
+import { IValidation } from '../../protocols/IValidation';
 import {
   IController,
   IHttpRequest,
   IHttpResponse,
-  IValidation,
   IAuthentication,
 } from './loginControllerProtocols';
 
