@@ -1,4 +1,4 @@
-import { badRequest, serverError } from '../../../helpers/http/http-helper';
+import { badRequest, noContent, serverError } from '../../../helpers/http/http-helper';
 
 import {
   IController,
@@ -20,11 +20,14 @@ export class CreateSurveyController implements IController {
       if (error) {
         return badRequest(error);
       }
+
       const { question, answers } = httpRequest.body;
       await this.createSurvey.create({
         question,
         answers,
       });
+
+      return noContent();
     } catch (error) {
       return serverError(error);
     }
