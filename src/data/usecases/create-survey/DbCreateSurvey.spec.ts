@@ -41,4 +41,13 @@ describe('DbCreateSurvey Usecase', () => {
     await sut.create(surveyDTO);
     expect(createSpy).toHaveBeenCalledWith(surveyDTO);
   });
+
+  it('Should throw if CreateSurveyRepository throws', async () => {
+    const { sut, createSurveyRepositoryStub } = makeSut();
+    jest
+      .spyOn(createSurveyRepositoryStub, 'create')
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+    const promise = sut.create(makeFakeSurveyDTO());
+    await expect(promise).rejects.toThrow();
+  });
 });
