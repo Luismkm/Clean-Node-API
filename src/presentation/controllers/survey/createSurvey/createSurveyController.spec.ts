@@ -1,11 +1,11 @@
-import { badRequest } from '../../../helpers/http/http-helper';
 import { CreateSurveyController } from './CreateSurveyController';
+import { badRequest } from '../../../helpers/http/http-helper';
 
 import {
-  IController,
   IHttpRequest,
-  IHttpResponse,
   IValidation,
+  ICreateSurvey,
+  ICreateSurveyDTO,
 } from './createSurveyControllerProtocols';
 
 const makeFakeRequest = (): IHttpRequest => ({
@@ -17,6 +17,15 @@ const makeFakeRequest = (): IHttpRequest => ({
     }],
   },
 });
+
+const makeCreateSurvey = (): ICreateSurvey => {
+  class CreateSurvey implements ICreateSurvey {
+    async create(data: ICreateSurveyDTO): Promise<void> {
+      return new Promise((resolve) => resolve());
+    }
+  }
+  return new CreateSurvey();
+};
 
 const makeValidationStub = (): IValidation => {
   class ValidationStub implements IValidation {
@@ -30,14 +39,17 @@ const makeValidationStub = (): IValidation => {
 interface ISutTypes {
   sut: CreateSurveyController
   validationStub: IValidation
+  createSurveyStub: ICreateSurvey
 }
 
 const makeSut = (): ISutTypes => {
   const validationStub = makeValidationStub();
-  const sut = new CreateSurveyController(validationStub);
+  const createSurveyStub = makeCreateSurvey();
+  const sut = new CreateSurveyController(validationStub, createSurveyStub);
   return {
     sut,
     validationStub,
+    createSurveyStub,
   };
 };
 
@@ -56,5 +68,13 @@ describe('CreateSurvey Controller', () => {
       .mockReturnValueOnce(new Error());
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(badRequest(new Error()));
+  });
+
+  it('Should call CreateSurvey with correct values', async () => {
+    const { sut, createSurveyStub } = makeSut();
+    const createSpy = jest.spyOn(createSurveyStub, 'create');
+    const httpRequest = makeFakeRequest();
+    await sut.handle(httpRequest);
+    expect(createSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 });
