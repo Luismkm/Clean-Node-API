@@ -1,6 +1,8 @@
 import { badRequest } from '../../../helpers/http/http-helper';
+
 import {
   IController,
+  ICreateSurvey,
   IHttpRequest,
   IHttpResponse,
   IValidation,
@@ -9,6 +11,7 @@ import {
 export class CreateSurveyController implements IController {
   constructor(
     private readonly validation: IValidation,
+    private readonly createSurvey: ICreateSurvey,
   ) {}
 
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
@@ -16,6 +19,10 @@ export class CreateSurveyController implements IController {
     if (error) {
       return badRequest(error);
     }
-    return new Promise((resolve) => resolve(null));
+    const { question, answers } = httpRequest.body;
+    await this.createSurvey.create({
+      question,
+      answers,
+    });
   }
 }
