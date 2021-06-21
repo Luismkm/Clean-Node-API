@@ -10,16 +10,33 @@ const makeFakeSurveyDTO = (): ICreateSurveyDTO => ({
   }],
 });
 
+const makeCreateSurveyRepository = (): ICreateSurveyRepository => {
+  class CreateSurveyRepositoryStub implements ICreateSurveyRepository {
+    async create(survey: ICreateSurveyDTO): Promise<void> {
+      return new Promise((resolve) => resolve());
+    }
+  }
+  return new CreateSurveyRepositoryStub();
+};
+
+interface ISutTypes {
+  sut: DbCreateSurvey
+  createSurveyRepositoryStub: ICreateSurveyRepository
+}
+
+const makeSut = (): ISutTypes => {
+  const createSurveyRepositoryStub = makeCreateSurveyRepository();
+  const sut = new DbCreateSurvey(createSurveyRepositoryStub);
+  return {
+    sut,
+    createSurveyRepositoryStub,
+  };
+};
+
 describe('DbCreateSurvey Usecase', () => {
   it('Should call CreateSurveyRepository with correct values', async () => {
-    class CreateSurveyRepositoryStub implements ICreateSurveyRepository {
-      async create(survey: ICreateSurveyDTO): Promise<void> {
-        return new Promise((resolve) => resolve());
-      }
-    }
-    const createSurveyRepositoryStub = new CreateSurveyRepositoryStub();
+    const { sut, createSurveyRepositoryStub } = makeSut();
     const createSpy = jest.spyOn(createSurveyRepositoryStub, 'create');
-    const sut = new DbCreateSurvey(createSurveyRepositoryStub);
     const surveyDTO = makeFakeSurveyDTO();
     await sut.create(surveyDTO);
     expect(createSpy).toHaveBeenCalledWith(surveyDTO);
