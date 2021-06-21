@@ -1,5 +1,5 @@
 import { CreateSurveyController } from './CreateSurveyController';
-import { badRequest } from '../../../helpers/http/http-helper';
+import { badRequest, serverError } from '../../../helpers/http/http-helper';
 
 import {
   IHttpRequest,
@@ -76,5 +76,13 @@ describe('CreateSurvey Controller', () => {
     const httpRequest = makeFakeRequest();
     await sut.handle(httpRequest);
     expect(createSpy).toHaveBeenCalledWith(httpRequest.body);
+  });
+
+  it('Should return 500 if CreateSurvey throws', async () => {
+    const { sut, createSurveyStub } = makeSut();
+    jest.spyOn(createSurveyStub, 'create')
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(serverError(new Error()));
   });
 });
