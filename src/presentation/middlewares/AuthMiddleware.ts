@@ -1,8 +1,12 @@
 import { AccessDeniedError } from '../errors';
 import { forbidden, serverError, success } from '../helpers/http/http-helper';
 
-import { IHttpRequest, IHttpResponse, IMiddleware } from '../protocols';
-import { ILoadAccountByToken } from '../../domain/usecases/ILoadAccountByToken';
+import {
+  IHttpRequest,
+  IHttpResponse,
+  IMiddleware,
+  ILoadAccountByToken,
+} from './authMiddlewareProtocols';
 
 export class AuthMiddleware implements IMiddleware {
   constructor(
