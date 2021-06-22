@@ -29,7 +29,15 @@ describe('DbLoadAccountByToken Usecase', () => {
   it('Should call Decrypter with correct values', () => {
     const { sut, decrypterStub } = makeSut();
     const decryptSpy = jest.spyOn(decrypterStub, 'decrypt');
-    sut.load('any_token');
+    sut.load('any_token', 'any_role');
     expect(decryptSpy).toHaveBeenCalledWith('any_token');
+  });
+
+  it('Should return null if Decrypter returns null', () => {
+    const { sut, decrypterStub } = makeSut();
+    jest.spyOn(decrypterStub, 'decrypt')
+      .mockReturnValueOnce(null);
+    const account = sut.load('any_token', 'any_role');
+    expect(account).toBeNull();
   });
 });
