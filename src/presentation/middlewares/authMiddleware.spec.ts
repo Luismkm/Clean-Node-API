@@ -4,12 +4,19 @@ import { AuthMiddleware } from './AuthMiddleware';
 
 import { IAccount } from '../../domain/models/IAccount';
 import { ILoadAccountByToken } from '../../domain/usecases/ILoadAccountByToken';
+import { IHttpRequest } from '../protocols';
 
 const makeFakeAccount = (): IAccount => ({
   id: 'any_id',
   name: 'any_name',
   email: 'any_email@mail.com',
   password: 'hashed_password',
+});
+
+const makeFakeRequest = (): IHttpRequest => ({
+  headers: {
+    'x-access-token': 'any_token',
+  },
 });
 
 interface ISutTypes {
@@ -44,11 +51,7 @@ describe('Auth Middleware', () => {
   it('Should call LoadAccountByToken if correct accessToken', async () => {
     const { sut, loadAccountByTokenStub } = makeSut();
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load');
-    await sut.handle({
-      headers: {
-        'x-access-token': 'any_token',
-      },
-    });
+    await sut.handle(makeFakeRequest());
     expect(loadSpy).toHaveBeenCalledWith('any_token');
   });
 });
