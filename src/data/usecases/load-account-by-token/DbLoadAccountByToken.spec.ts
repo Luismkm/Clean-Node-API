@@ -83,4 +83,22 @@ describe('DbLoadAccountByToken Usecase', () => {
     const account = await sut.load('any_token', 'any_role');
     expect(account).toEqual(makeFakeAccount());
   });
+
+  it('Should throw if Decrypter throws', () => {
+    const { sut, decrypterStub } = makeSut();
+    jest
+      .spyOn(decrypterStub, 'decrypt')
+      .mockImplementationOnce(() => { throw new Error(); });
+    const returnValue = sut.load('any_token', 'any_role');
+    expect(returnValue).rejects.toThrow();
+  });
+
+  it('Should throw if LoadAccountByEmailRepository throws', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut();
+    jest
+      .spyOn(loadAccountByEmailRepositoryStub, 'loadByToken')
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+    const promise = sut.load('any_token', 'any_role');
+    await expect(promise).rejects.toThrow();
+  });
 });
