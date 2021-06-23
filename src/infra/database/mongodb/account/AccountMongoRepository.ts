@@ -4,10 +4,12 @@ import { ILoadAccountByEmailRepository } from '../../../../data/protocols/db/acc
 import { IUpdateAccessTokenRepository } from '../../../../data/protocols/db/account/IUpdateAccessTokenRepository';
 import { IAccount, ICreateAccountDTO } from '../../../../data/usecases/create-account/DbCreateAccountProtocols';
 import { ICreateAccountRepository } from '../../../../data/protocols/db/account/ICreateAccountRepository';
+import { ILoadAccountByTokenRepository } from '../../../../data/protocols/db/account/ILoadAccountByTokenRepository';
 
 export class AccountMongoRepository implements
   ICreateAccountRepository,
   ILoadAccountByEmailRepository,
+  ILoadAccountByTokenRepository,
   IUpdateAccessTokenRepository {
   async create(account: ICreateAccountDTO): Promise<IAccount> {
     const accountCollection = await MongoHelper.getCollection('accounts');
@@ -30,5 +32,14 @@ export class AccountMongoRepository implements
         accessToken: token,
       },
     });
+  }
+
+  async loadByToken(token: string, role?: string): Promise<IAccount> {
+    const accountCollection = await MongoHelper.getCollection('accounts');
+    const account = await accountCollection.findOne({
+      accessToken: token,
+      role,
+    });
+    return account && MongoHelper.map(account);
   }
 }
