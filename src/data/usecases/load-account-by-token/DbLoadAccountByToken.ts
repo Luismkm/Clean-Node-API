@@ -1,12 +1,19 @@
 import { ILoadAccountByToken } from '../../../domain/usecases/ILoadAccountByToken';
 import { IDecrypter } from '../../protocols/criptography/IDecrypter';
+import { ILoadAccountByTokenRepository } from '../../protocols/db/account/ILoadAccountByTokenRepository';
 import { IAccount } from '../authentication/DbAuthenticationProtocols';
 
 export class DbLoadAccountByToken implements ILoadAccountByToken {
-  constructor(private readonly decrypter: IDecrypter) {}
+  constructor(
+    private readonly decrypter: IDecrypter,
+    private readonly loadAccountByTokenRepository: ILoadAccountByTokenRepository,
+  ) {}
 
-  load(accessToken: string, role?: string): Promise<IAccount> {
-    this.decrypter.decrypt(accessToken);
+  async load(accessToken: string, role?: string): Promise<IAccount> {
+    const token = this.decrypter.decrypt(accessToken);
+    if (token) {
+      await this.loadAccountByTokenRepository.loadByToken(accessToken, role);
+    }
     return null;
   }
 }
