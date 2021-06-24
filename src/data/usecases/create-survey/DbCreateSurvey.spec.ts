@@ -1,3 +1,5 @@
+import MockDate from 'mockdate';
+
 import { DbCreateSurvey } from './DbCreateSurvey';
 
 import { ICreateSurveyDTO, ICreateSurveyRepository } from './DbCreateSurveyProtocols';
@@ -8,6 +10,7 @@ const makeFakeSurveyDTO = (): ICreateSurveyDTO => ({
     image: 'any_image',
     answer: 'any_answer',
   }],
+  date: new Date(),
 });
 
 const makeCreateSurveyRepository = (): ICreateSurveyRepository => {
@@ -34,6 +37,14 @@ const makeSut = (): ISutTypes => {
 };
 
 describe('DbCreateSurvey Usecase', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    MockDate.reset();
+  });
+
   it('Should call CreateSurveyRepository with correct values', async () => {
     const { sut, createSurveyRepositoryStub } = makeSut();
     const createSpy = jest.spyOn(createSurveyRepositoryStub, 'create');

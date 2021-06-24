@@ -25,6 +25,7 @@ export class CreateSurveyController implements IController {
       await this.createSurvey.create({
         question,
         answers,
+        date: new Date(),
       });
 
       return noContent();
