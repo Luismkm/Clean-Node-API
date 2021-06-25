@@ -2,8 +2,7 @@ import MockDate from 'mockdate';
 
 import { DbLoadSurveyById } from './DbLoadSurveyById';
 
-import { ISurvey } from '../../../domain/models/ISurvey';
-import { ILoadSurveyByIdRepository } from '../../protocols/db/survey/ILoadSurveyByIdRepository';
+import { ISurvey, ILoadSurveyByIdRepository } from './DbLoadSurveyByIdProtocols';
 
 const makeFakeSurvey = (): ISurvey => ({
   id: 'any_id',
