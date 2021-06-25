@@ -1,10 +1,6 @@
-import { SurveyAnswer } from '../models/ISurvey';
+import { ISurvey } from '../models/ISurvey';
 
-export type ICreateSurveyDTO = {
-  question: string,
-  answers: SurveyAnswer[]
-  date: Date
-}
+export type ICreateSurveyDTO = Omit<ISurvey, 'id'>
 
 export interface ICreateSurvey {
   create(data: ICreateSurveyDTO): Promise<void>
