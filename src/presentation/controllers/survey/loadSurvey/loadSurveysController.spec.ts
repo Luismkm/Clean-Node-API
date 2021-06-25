@@ -26,7 +26,7 @@ const makeFakeSurveys = (): ISurvey[] => [{
 
 }];
 
-interface ISutTypes {
+type ISutTypes = {
   sut: LoadSurveysController
   loadSurveysStub: ILoadSurveys
 

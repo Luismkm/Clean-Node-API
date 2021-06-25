@@ -1,4 +1,4 @@
-export interface IAccount {
+export type IAccount = {
   id: string,
   name: string,
   email: string,

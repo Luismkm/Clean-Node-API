@@ -4,7 +4,7 @@ import { IDecrypter } from '../../protocols/criptography/IDecrypter';
 import { IAccount } from '../authentication/DbAuthenticationProtocols';
 import { ILoadAccountByTokenRepository } from '../../protocols/db/account/ILoadAccountByTokenRepository';
 
-interface ISutTypes {
+type ISutTypes = {
   sut: DbLoadAccountByToken
   decrypterStub: IDecrypter
   loadAccountByEmailRepositoryStub: ILoadAccountByTokenRepository

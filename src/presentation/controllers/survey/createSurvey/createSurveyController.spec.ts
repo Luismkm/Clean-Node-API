@@ -39,7 +39,7 @@ const makeValidationStub = (): IValidation => {
   return new ValidationStub();
 };
 
-interface ISutTypes {
+type ISutTypes = {
   sut: CreateSurveyController
   validationStub: IValidation
   createSurveyStub: ICreateSurvey
