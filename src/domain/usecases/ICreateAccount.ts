@@ -1,6 +1,6 @@
 import { IAccount } from '../models/IAccount';
 
-export interface ICreateAccountDTO {
+export type ICreateAccountDTO = {
   name: string,
   email: string,
   password: string,

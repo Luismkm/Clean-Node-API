@@ -14,7 +14,7 @@ import {
   IAuthenticationDTO,
 } from './loginControllerProtocols';
 
-interface ISutTypes {
+type ISutTypes = {
   sut: LoginController,
   authenticationStub: IAuthentication
   validationStub: IValidation

@@ -1,6 +1,6 @@
 import { SurveyAnswer } from '../models/ISurvey';
 
-export interface ICreateSurveyDTO {
+export type ICreateSurveyDTO = {
   question: string,
   answers: SurveyAnswer[]
   date: Date

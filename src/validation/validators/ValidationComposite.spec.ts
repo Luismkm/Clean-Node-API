@@ -3,7 +3,7 @@ import { MissingParamError } from '../../presentation/errors';
 
 import { IValidation } from '../../presentation/protocols';
 
-interface ISutTypes {
+type ISutTypes = {
   sut: ValidationComposite
   validationStubs: IValidation[]
 }

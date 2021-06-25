@@ -48,7 +48,7 @@ const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
   return new LoadAccountByEmailRepositoryStub();
 };
 
-interface ISutTypes {
+type ISutTypes = {
   sut: DbCreateAccount
   hasherStub: IHasher
   createAccountRepositoryStub: ICreateAccountRepository

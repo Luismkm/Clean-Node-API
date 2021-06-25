@@ -1,4 +1,4 @@
-export interface IAuthenticationDTO {
+export type IAuthenticationDTO = {
   email: string
   password: string
 }
