@@ -6,4 +6,5 @@ export type IHttpResponse = {
 export type IHttpRequest = {
   headers?: any;
   body?: any;
+  params?: any;
 }
