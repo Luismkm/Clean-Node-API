@@ -1,8 +1,8 @@
 import { DbLoadAccountByToken } from './DbLoadAccountByToken';
 
-import { IDecrypter } from '../../protocols/criptography/IDecrypter';
-import { IAccount } from '../authentication/DbAuthenticationProtocols';
-import { ILoadAccountByTokenRepository } from '../../protocols/db/account/ILoadAccountByTokenRepository';
+import { IDecrypter } from '../../../protocols/criptography/IDecrypter';
+import { ILoadAccountByTokenRepository } from '../../../protocols/db/account/ILoadAccountByTokenRepository';
+import { IAccount } from '../create-account/DbCreateAccountProtocols';
 
 type ISutTypes = {
   sut: DbLoadAccountByToken

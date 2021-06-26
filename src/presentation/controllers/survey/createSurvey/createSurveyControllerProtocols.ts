@@ -1,2 +1,2 @@
 export * from '../../../protocols';
-export * from '../../../../domain/usecases/ICreateSurvey';
+export * from '../../../../domain/usecases/survey/ICreateSurvey';

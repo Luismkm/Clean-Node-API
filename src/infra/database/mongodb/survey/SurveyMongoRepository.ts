@@ -1,10 +1,10 @@
 import { MongoHelper } from '../helpers/mongoHelper';
 
 import { ICreateSurveyRepository } from '../../../../data/protocols/db/survey/ICreateSurveyRepository';
-import { ICreateSurveyDTO } from '../../../../domain/usecases/ICreateSurvey';
+import { ICreateSurveyDTO } from '../../../../domain/usecases/survey/ICreateSurvey';
 import { ILoadSurveyRepository } from '../../../../data/protocols/db/survey/ILoadSurveysRepository';
 import { ISurvey } from '../../../../domain/models/ISurvey';
-import { ILoadSurveyByIdRepository } from '../../../../data/usecases/load-survey-by-id/DbLoadSurveyByIdProtocols';
+import { ILoadSurveyByIdRepository } from '../../../../data/protocols/db/survey/ILoadSurveyByIdRepository';
 
 export class SurveyMongoRepository implements
   ICreateSurveyRepository,

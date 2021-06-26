@@ -1,8 +1,8 @@
 import { MongoHelper } from '../helpers/mongoHelper';
 
-import { ISaveSurveyResultRepository } from '../../../../data/protocols/db/survey/ISaveSurveyResultRepository';
+import { ISaveSurveyResultRepository } from '../../../../data/protocols/db/surveyResult/ISaveSurveyResultRepository';
 import { ISurveyResult } from '../../../../domain/models/ISurveyResult';
-import { ISaveSurveyResultDTO } from '../../../../domain/usecases/ISaveSurveyResult';
+import { ISaveSurveyResultDTO } from '../../../../domain/usecases/surveyResult/ISaveSurveyResult';
 
 export class SurveyResultMongoRepository implements ISaveSurveyResultRepository {
   async save(data: ISaveSurveyResultDTO): Promise<ISurveyResult> {

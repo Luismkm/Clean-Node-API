@@ -1,12 +1,12 @@
 import { DbCreateAccount } from './DbCreateAccount';
 
-import { ICreateAccountRepository } from '../../protocols/db/account/ICreateAccountRepository';
-import { ILoadAccountByEmailRepository } from '../authentication/DbAuthenticationProtocols';
+import { ICreateAccountRepository } from '../../../protocols/db/account/ICreateAccountRepository';
 import {
   IHasher,
   ICreateAccountDTO,
   IAccount,
 } from './DbCreateAccountProtocols';
+import { ILoadAccountByEmailRepository } from '../../../protocols/db/account/ILoadAccountByEmailRepository';
 
 const makeFakeAccountDTO = (): ICreateAccountDTO => ({
   name: 'valid_name',

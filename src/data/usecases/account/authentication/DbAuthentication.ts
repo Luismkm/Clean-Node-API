@@ -1,5 +1,5 @@
-import { ILoadAccountByEmailRepository } from '../../protocols/db/account/ILoadAccountByEmailRepository';
-import { IUpdateAccessTokenRepository } from '../../protocols/db/account/IUpdateAccessTokenRepository';
+import { ILoadAccountByEmailRepository } from '../../../protocols/db/account/ILoadAccountByEmailRepository';
+import { IUpdateAccessTokenRepository } from '../../../protocols/db/account/IUpdateAccessTokenRepository';
 import {
   IAuthenticationDTO,
   IHashComparer,

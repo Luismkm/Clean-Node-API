@@ -1,5 +1,5 @@
-import { ICreateAccountRepository } from '../../protocols/db/account/ICreateAccountRepository';
-import { ILoadAccountByEmailRepository } from '../../protocols/db/account/ILoadAccountByEmailRepository';
+import { ICreateAccountRepository } from '../../../protocols/db/account/ICreateAccountRepository';
+import { ILoadAccountByEmailRepository } from '../../../protocols/db/account/ILoadAccountByEmailRepository';
 import {
   IAccount,
   ICreateAccount,

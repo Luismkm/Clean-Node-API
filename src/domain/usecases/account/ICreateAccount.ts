@@ -1,4 +1,4 @@
-import { IAccount } from '../models/IAccount';
+import { IAccount } from '../../models/IAccount';
 
 export type ICreateAccountDTO = Omit<IAccount, 'id'>
 
