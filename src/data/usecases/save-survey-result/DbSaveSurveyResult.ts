@@ -9,7 +9,7 @@ export class DbSaveSurveyResult implements ISaveSurveyResult {
   constructor(private readonly saveSurveyResultRepository: ISaveSurveyResultRepository) {}
 
   async save(data: ISaveSurveyResultDTO): Promise<ISurveyResult> {
-    await this.saveSurveyResultRepository.save(data);
-    return null;
+    const surveyResult = await this.saveSurveyResultRepository.save(data);
+    return surveyResult;
   }
 }
