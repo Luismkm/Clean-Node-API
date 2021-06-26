@@ -16,7 +16,7 @@ describe('Survey Mongo Repository', () => {
 
   beforeEach(async () => {
     surveyCollection = await MongoHelper.getCollection('surveys');
-    surveyCollection.deleteMany({});
+    await surveyCollection.deleteMany({});
 
     sut = new SurveyMongoRepository();
   });
