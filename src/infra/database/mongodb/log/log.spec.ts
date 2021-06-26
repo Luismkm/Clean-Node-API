@@ -15,7 +15,7 @@ describe('Log Mongo Repository', () => {
 
   beforeEach(async () => {
     errorCollection = await MongoHelper.getCollection('errors');
-    errorCollection.deleteMany({});
+    await errorCollection.deleteMany({});
   });
 
   it('Should create an error log on success', async () => {

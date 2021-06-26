@@ -16,7 +16,7 @@ describe('Account Mongo Repository', () => {
 
   beforeEach(async () => {
     accountCollection = await MongoHelper.getCollection('accounts');
-    accountCollection.deleteMany({});
+    await accountCollection.deleteMany({});
 
     sut = new AccountMongoRepository();
   });
