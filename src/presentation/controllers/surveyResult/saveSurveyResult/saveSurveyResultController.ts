@@ -1,5 +1,5 @@
 import { InvalidParamError } from '../../../errors';
-import { forbidden, serverError } from '../../../helpers/http/http-helper';
+import { forbidden, serverError, success } from '../../../helpers/http/http-helper';
 
 import {
   IController, IHttpRequest, IHttpResponse, ILoadSurveyById, ISaveSurveyResult,
@@ -26,13 +26,13 @@ export class SaveSurveyResultController implements IController {
       } else {
         return forbidden(new InvalidParamError('surveyId'));
       }
-      await this.saveSurveyResult.save({
+      const surveyResult = await this.saveSurveyResult.save({
         accountId,
         surveyId,
         answer,
         date: new Date(),
       });
-      return null;
+      return success(surveyResult);
     } catch (error) {
       return serverError(error);
     }
