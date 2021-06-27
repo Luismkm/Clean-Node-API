@@ -7,4 +7,5 @@ export type IHttpRequest = {
   headers?: any;
   body?: any;
   params?: any;
+  accountId?: string
 }
