@@ -1,5 +1,5 @@
 import MockDate from 'mockdate';
-
+import { throwError } from '../../../../domain/test';
 import { DbCreateSurvey } from './DbCreateSurvey';
 
 import { ICreateSurveyDTO, ICreateSurveyRepository } from './DbCreateSurveyProtocols';
@@ -57,7 +57,7 @@ describe('DbCreateSurvey Usecase', () => {
     const { sut, createSurveyRepositoryStub } = makeSut();
     jest
       .spyOn(createSurveyRepositoryStub, 'create')
-      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+      .mockImplementationOnce(throwError);
     const promise = sut.create(makeFakeSurveyDTO());
     await expect(promise).rejects.toThrow();
   });

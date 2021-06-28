@@ -1,5 +1,7 @@
 import { DbLoadAccountByToken } from './DbLoadAccountByToken';
 
+import { throwError } from '../../../../domain/test';
+
 import { IDecrypter } from '../../../protocols/criptography/IDecrypter';
 import { ILoadAccountByTokenRepository } from '../../../protocols/db/account/ILoadAccountByTokenRepository';
 import { IAccount } from '../create-account/DbCreateAccountProtocols';
@@ -97,7 +99,7 @@ describe('DbLoadAccountByToken Usecase', () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     jest
       .spyOn(loadAccountByEmailRepositoryStub, 'loadByToken')
-      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())));
+      .mockImplementationOnce(throwError);
     const promise = sut.load('any_token', 'any_role');
     await expect(promise).rejects.toThrow();
   });
