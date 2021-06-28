@@ -1,5 +1,5 @@
 import { SignUpController } from './SignUp';
-import { throwError } from '../../../../domain/test';
+import { throwError, mockAccount } from '../../../../domain/test';
 import { EmailInUseError, MissingParamError, ServerError } from '../../../errors';
 import {
   success, serverError, badRequest, forbidden,
@@ -15,13 +15,6 @@ import {
   IAuthenticationDTO,
 } from './signupProtocols';
 
-const makeFakeAccount = (): IAccount => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email',
-  password: 'valid_pasword',
-});
-
 const makeFakeRequest = (): IHttpRequest => ({
   body: {
     name: 'any_name',
@@ -34,7 +27,7 @@ const makeFakeRequest = (): IHttpRequest => ({
 const makeCreateAccount = (): ICreateAccount => {
   class CreateAccountStub implements ICreateAccount {
     async create(account: ICreateAccountDTO): Promise<IAccount> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
+      return new Promise((resolve) => resolve(mockAccount()));
     }
   }
   return new CreateAccountStub();

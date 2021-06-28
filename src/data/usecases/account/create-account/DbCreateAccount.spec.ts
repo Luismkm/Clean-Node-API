@@ -1,22 +1,10 @@
 import { DbCreateAccount } from './DbCreateAccount';
 import { mockAccount, mockAccountDTO, throwError } from '../../../../domain/test';
+import { mockHasher } from '../../../tests';
 
 import { ICreateAccountRepository } from '../../../protocols/db/account/ICreateAccountRepository';
-import {
-  IHasher,
-  ICreateAccountDTO,
-  IAccount,
-} from './DbCreateAccountProtocols';
 import { ILoadAccountByEmailRepository } from '../../../protocols/db/account/ILoadAccountByEmailRepository';
-
-const makeHasher = (): IHasher => {
-  class HasherStub implements IHasher {
-    async hash(value: string): Promise<string> {
-      return new Promise((resolve) => resolve('hashed_password'));
-    }
-  }
-  return new HasherStub();
-};
+import { IHasher, ICreateAccountDTO, IAccount } from './DbCreateAccountProtocols';
 
 const makeCreateAccountRepository = (): ICreateAccountRepository => {
   class CreateAccountRepositoryStub implements ICreateAccountRepository {
@@ -45,7 +33,7 @@ type ISutTypes = {
 
 const makeSut = (): ISutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
-  const hasherStub = makeHasher();
+  const hasherStub = mockHasher();
   const createAccountRepositoryStub = makeCreateAccountRepository();
   const sut = new DbCreateAccount(
     hasherStub,

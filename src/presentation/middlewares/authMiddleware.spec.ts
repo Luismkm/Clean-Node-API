@@ -1,15 +1,9 @@
 import { AccessDeniedError } from '../errors';
+import { mockAccount } from '../../domain/test';
 import { forbidden, serverError, success } from '../helpers/http/http-helper';
 import { AuthMiddleware } from './AuthMiddleware';
 
 import { ILoadAccountByToken, IAccount, IHttpRequest } from './authMiddlewareProtocols';
-
-const makeFakeAccount = (): IAccount => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'hashed_password',
-});
 
 const makeFakeRequest = (): IHttpRequest => ({
   headers: {
@@ -24,7 +18,7 @@ type ISutTypes = {
 const makeLoadAccountByToken = (): ILoadAccountByToken => {
   class LoadAccountByTokenStub implements ILoadAccountByToken {
     async load(accessToken: string, role?: string): Promise<IAccount> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
+      return new Promise((resolve) => resolve(mockAccount()));
     }
   }
   return new LoadAccountByTokenStub();

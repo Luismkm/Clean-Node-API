@@ -1,22 +1,12 @@
 import { DbAuthentication } from './DbAuthentication';
-
-import { throwError } from '../../../../domain/test';
+import { mockEncrypter, mockHashCompare } from '../../../tests';
+import { throwError, mockAccount } from '../../../../domain/test';
 
 import { ILoadAccountByEmailRepository } from '../../../protocols/db/account/ILoadAccountByEmailRepository';
 import { IUpdateAccessTokenRepository } from '../../../protocols/db/account/IUpdateAccessTokenRepository';
 import {
-  IAccount,
-  IAuthenticationDTO,
-  IHashComparer,
-  IEncrypter,
+  IAccount, IAuthenticationDTO, IHashComparer, IEncrypter,
 } from './DbAuthenticationProtocols';
-
-const makeFakeAccount = (): IAccount => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'hashed_password',
-});
 
 const makeFakeAuthentication = (): IAuthenticationDTO => ({
   email: 'any_email@mail.com',
@@ -26,28 +16,10 @@ const makeFakeAuthentication = (): IAuthenticationDTO => ({
 const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
     async loadByEmail(email: string): Promise<IAccount> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
+      return new Promise((resolve) => resolve(mockAccount()));
     }
   }
   return new LoadAccountByEmailRepositoryStub();
-};
-
-const makeHashCompare = (): IHashComparer => {
-  class HashCompareStub implements IHashComparer {
-    async compare(value: string, hash: string): Promise<boolean> {
-      return new Promise((resolve) => resolve(true));
-    }
-  }
-  return new HashCompareStub();
-};
-
-const makeEncrypterStub = (): IEncrypter => {
-  class EncrypterStub implements IEncrypter {
-    encrypt(value: string): string {
-      return 'any_token';
-    }
-  }
-  return new EncrypterStub();
 };
 
 const makeUpdateAccessTokenRepositoryStub = (): IUpdateAccessTokenRepository => {
@@ -69,8 +41,8 @@ type ISutTypes = {
 
 const makeSut = (): ISutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
-  const hashCompareStub = makeHashCompare();
-  const encrypterStub = makeEncrypterStub();
+  const hashCompareStub = mockHashCompare();
+  const encrypterStub = mockEncrypter();
   const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepositoryStub();
   const sut = new DbAuthentication(
     loadAccountByEmailRepositoryStub,
