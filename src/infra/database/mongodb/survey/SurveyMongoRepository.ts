@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 import { MongoHelper } from '../helpers/mongoHelper';
 
 import { ICreateSurveyRepository } from '../../../../data/protocols/db/survey/ICreateSurveyRepository';
@@ -23,7 +25,7 @@ export class SurveyMongoRepository implements
 
   async loadById(id: string): Promise<ISurvey> {
     const surveyCollection = await MongoHelper.getCollection('surveys');
-    const survey = await surveyCollection.findOne({ _id: id });
+    const survey = await surveyCollection.findOne({ _id: new ObjectId(id) });
     return survey && MongoHelper.map(survey);
   }
 }
