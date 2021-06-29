@@ -1,4 +1,5 @@
 import { ISurvey } from '../models/ISurvey';
+import { ICreateSurveyDTO } from '../usecases/survey/ICreateSurvey';
 
 export const mockSurvey = (): ISurvey => ({
   id: 'any_id',
@@ -29,3 +30,12 @@ export const mockSurveys = (): ISurvey[] => [{
   date: new Date(),
 
 }];
+
+export const mockCreateSurveyDTO = (): ICreateSurveyDTO => ({
+  question: 'any_question',
+  answers: [{
+    image: 'any_image',
+    answer: 'any_answer',
+  }],
+  date: new Date(),
+});
