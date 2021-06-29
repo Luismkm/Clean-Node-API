@@ -1,29 +1,21 @@
 import { LogControllerDecorator } from './LogControllerDecorator';
-import { serverError } from '../../presentation/helpers/http/http-helper';
+import { serverError, success } from '../../presentation/helpers/http/http-helper';
+import { mockLogErrorRepository } from '../../data/tests';
+import { mockAccount } from '../../domain/test';
 
 import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols';
 import { ILogErrorRepository } from '../../data/protocols/db/log/ILogErrorRepository';
 
-class ControllerStub implements IController {
-  async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    const httpResponse: IHttpResponse = {
-      statusCode: 200,
-      body: {
-        name: 'any_name',
-      },
-    };
-
-    return new Promise((resolve) => resolve(httpResponse));
+const makeController = (): IController => {
+  class ControllerStub implements IController {
+    async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
+      return new Promise((resolve) => resolve(success(mockAccount())));
+    }
   }
-}
+  return new ControllerStub();
+};
 
-class LogErrorRepositoryStub implements ILogErrorRepository {
-  async logError(stack: string): Promise<void> {
-    return new Promise((resolve) => resolve());
-  }
-}
-
-let controllerStub: ControllerStub;
+let controllerStub: IController;
 let logErrorRepositoryStub: ILogErrorRepository;
 let sut: LogControllerDecorator;
 
@@ -38,8 +30,8 @@ const makeFakeRequest = (): IHttpRequest => ({
 
 describe('LogController Decoratoor', () => {
   beforeEach(() => {
-    controllerStub = new ControllerStub();
-    logErrorRepositoryStub = new LogErrorRepositoryStub();
+    controllerStub = makeController();
+    logErrorRepositoryStub = mockLogErrorRepository();
     sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub);
   });
 
@@ -55,9 +47,7 @@ describe('LogController Decoratoor', () => {
 
     expect(httpResponse).toEqual({
       statusCode: 200,
-      body: {
-        name: 'any_name',
-      },
+      body: mockAccount(),
     });
   });
 

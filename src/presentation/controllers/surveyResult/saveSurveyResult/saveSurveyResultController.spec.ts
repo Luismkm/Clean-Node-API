@@ -1,6 +1,6 @@
 import MockDate from 'mockdate';
 
-import { throwError } from '../../../../domain/test';
+import { throwError, mockSurvey } from '../../../../domain/test';
 import { InvalidParamError } from '../../../errors';
 import { forbidden, serverError, success } from '../../../helpers/http/http-helper';
 import { SaveSurveyResultController } from './saveSurveyResultController';
@@ -40,7 +40,7 @@ const makeFakeSurveyResult = (): ISurveyResult => ({
 const makeLoadSurveyById = (): ILoadSurveyById => {
   class LoadSurveyByIdStub implements ILoadSurveyById {
     async loadById(id: string): Promise<ISurvey> {
-      return new Promise((resolve) => resolve(makeFakeSurvey()));
+      return new Promise((resolve) => resolve(mockSurvey()));
     }
   }
   return new LoadSurveyByIdStub();

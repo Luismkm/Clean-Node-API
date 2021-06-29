@@ -1,5 +1,7 @@
 import MockDate from 'mockdate';
+
 import { throwError } from '../../../../domain/test';
+import { mockCreateSurveyRepository } from '../../../tests';
 import { DbCreateSurvey } from './DbCreateSurvey';
 
 import { ICreateSurveyDTO, ICreateSurveyRepository } from './DbCreateSurveyProtocols';
@@ -13,22 +15,13 @@ const makeFakeSurveyDTO = (): ICreateSurveyDTO => ({
   date: new Date(),
 });
 
-const makeCreateSurveyRepository = (): ICreateSurveyRepository => {
-  class CreateSurveyRepositoryStub implements ICreateSurveyRepository {
-    async create(survey: ICreateSurveyDTO): Promise<void> {
-      return new Promise((resolve) => resolve());
-    }
-  }
-  return new CreateSurveyRepositoryStub();
-};
-
 type ISutTypes = {
   sut: DbCreateSurvey
   createSurveyRepositoryStub: ICreateSurveyRepository
 }
 
 const makeSut = (): ISutTypes => {
-  const createSurveyRepositoryStub = makeCreateSurveyRepository();
+  const createSurveyRepositoryStub = mockCreateSurveyRepository();
   const sut = new DbCreateSurvey(createSurveyRepositoryStub);
   return {
     sut,
