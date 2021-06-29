@@ -1,5 +1,5 @@
-import { AccessDeniedError } from '../errors';
 import { mockAccount } from '../../domain/test';
+import { AccessDeniedError } from '../errors';
 import { forbidden, serverError, success } from '../helpers/http/http-helper';
 import { AuthMiddleware } from './AuthMiddleware';
 

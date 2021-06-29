@@ -1,10 +1,9 @@
 import { DbLoadAccountByToken } from './DbLoadAccountByToken';
-import { mockDecrypter } from '../../../tests';
+import { mockDecrypter, mockLoadAccountByTokenRepository } from '../../../tests';
 import { throwError, mockAccount } from '../../../../domain/test';
 
 import { IDecrypter } from '../../../protocols/criptography/IDecrypter';
 import { ILoadAccountByTokenRepository } from '../../../protocols/db/account/ILoadAccountByTokenRepository';
-import { IAccount } from '../create-account/DbCreateAccountProtocols';
 
 type ISutTypes = {
   sut: DbLoadAccountByToken
@@ -12,18 +11,9 @@ type ISutTypes = {
   loadAccountByEmailRepositoryStub: ILoadAccountByTokenRepository
 }
 
-const makeLoadAccountByTokenRepository = (): ILoadAccountByTokenRepository => {
-  class LoadAccountByTokenRepositoryStub implements ILoadAccountByTokenRepository {
-    async loadByToken(token: string, role?: string): Promise<IAccount> {
-      return new Promise((resolve) => resolve(mockAccount()));
-    }
-  }
-  return new LoadAccountByTokenRepositoryStub();
-};
-
 const makeSut = (): ISutTypes => {
   const decrypterStub = mockDecrypter();
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByTokenRepository();
+  const loadAccountByEmailRepositoryStub = mockLoadAccountByTokenRepository();
   const sut = new DbLoadAccountByToken(decrypterStub, loadAccountByEmailRepositoryStub);
   return {
     sut,
