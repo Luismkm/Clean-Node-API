@@ -1,6 +1,6 @@
-import { mockAccount } from '../../domain/test';
 import { AccessDeniedError } from '../errors';
 import { forbidden, serverError, success } from '../helpers/http/http-helper';
+import { mockLoadAccountByToken } from '../test';
 import { AuthMiddleware } from './AuthMiddleware';
 
 import { ILoadAccountByToken, IAccount, IHttpRequest } from './authMiddlewareProtocols';
@@ -15,17 +15,9 @@ type ISutTypes = {
   sut: AuthMiddleware
   loadAccountByTokenStub: ILoadAccountByToken
 }
-const makeLoadAccountByToken = (): ILoadAccountByToken => {
-  class LoadAccountByTokenStub implements ILoadAccountByToken {
-    async load(accessToken: string, role?: string): Promise<IAccount> {
-      return new Promise((resolve) => resolve(mockAccount()));
-    }
-  }
-  return new LoadAccountByTokenStub();
-};
 
 const makeSut = (role?: string): ISutTypes => {
-  const loadAccountByTokenStub = makeLoadAccountByToken();
+  const loadAccountByTokenStub = mockLoadAccountByToken();
   const sut = new AuthMiddleware(loadAccountByTokenStub, role);
   return {
     sut,
