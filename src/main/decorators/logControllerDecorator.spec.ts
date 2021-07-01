@@ -9,7 +9,7 @@ import { ILogErrorRepository } from '../../data/protocols/db/log/ILogErrorReposi
 const makeController = (): IController => {
   class ControllerStub implements IController {
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-      return new Promise((resolve) => resolve(success(mockAccount())));
+      return Promise.resolve(success(mockAccount()));
     }
   }
   return new ControllerStub();
@@ -59,7 +59,7 @@ describe('LogController Decoratoor', () => {
     const logSpy = jest.spyOn(logErrorRepositoryStub, 'logError');
 
     jest.spyOn(controllerStub, 'handle')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(error)));
+      .mockReturnValueOnce(Promise.resolve(error));
     await sut.handle(makeFakeRequest());
 
     expect(logSpy).toHaveBeenCalledWith('any_stack');

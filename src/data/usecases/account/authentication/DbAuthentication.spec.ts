@@ -76,7 +76,7 @@ describe('DbAuthentication UseCase', () => {
 
   it('Should return null if HashCompare returns false', async () => {
     const { sut, hashCompareStub } = makeSut();
-    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(new Promise((resolve) => resolve(false)));
+    jest.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(Promise.resolve(false));
     const accessToken = await sut.auth(mockAuthentication());
     expect(accessToken).toBeNull();
   });
@@ -88,14 +88,14 @@ describe('DbAuthentication UseCase', () => {
     expect(encryptSpy).toHaveBeenCalledWith('any_id');
   });
 
-  /*  it('Should throw if TokenGenerator throws', async () => {
+  /*   it('Should throw if TokenGenerator throws', async () => {
     const { sut, encrypterStub } = makeSut();
     jest.spyOn(encrypterStub, 'encrypt')
-    .mockImplementationOnce(throwError);
+      .mockImplementationOnce(throwError);
     const promise = sut.auth(mockAuthentication());
     await expect(promise).rejects.toThrow();
-  });
- */
+  }); */
+
   it('Should return a token on success', async () => {
     const { sut } = makeSut();
     const accessToken = await sut.auth(mockAuthentication());

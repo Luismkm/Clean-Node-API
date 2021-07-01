@@ -6,7 +6,7 @@ import { IHasher } from '../protocols/criptography/IHasher';
 export const mockHasher = (): IHasher => {
   class HasherStub implements IHasher {
     async hash(value: string): Promise<string> {
-      return new Promise((resolve) => resolve('hashed_password'));
+      return Promise.resolve('hashed_password');
     }
   }
   return new HasherStub();
@@ -33,7 +33,7 @@ export const mockEncrypter = (): IEncrypter => {
 export const mockHashCompare = (): IHashComparer => {
   class HashCompareStub implements IHashComparer {
     async compare(value: string, hash: string): Promise<boolean> {
-      return new Promise((resolve) => resolve(true));
+      return Promise.resolve(true);
     }
   }
   return new HashCompareStub();

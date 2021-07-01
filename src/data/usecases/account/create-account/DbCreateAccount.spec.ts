@@ -16,7 +16,7 @@ type ISutTypes = {
 const makeSut = (): ISutTypes => {
   const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepository();
   jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-    .mockReturnValue(new Promise((resolve) => resolve(null)));
+    .mockReturnValue(Promise.resolve(null));
   const hasherStub = mockHasher();
   const createAccountRepositoryStub = mockCreateAccountRepository();
   const sut = new DbCreateAccount(
@@ -78,7 +78,7 @@ describe('DbCreateAccount Usecase', () => {
   it('Should return null if LoadAccountByEmailRepository not return null ', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(mockAccount())));
+      .mockReturnValueOnce(Promise.resolve(mockAccount()));
     const account = await sut.create(mockAccountDTO());
     expect(account).toBeNull();
   });

@@ -6,7 +6,7 @@ import { ILoadSurveyById } from '../controllers/surveyResult/saveSurveyResult/sa
 export const mockCreateSurvey = (): ICreateSurvey => {
   class CreateSurvey implements ICreateSurvey {
     async create(data: ICreateSurveyDTO): Promise<void> {
-      return new Promise((resolve) => resolve());
+      return Promise.resolve();
     }
   }
   return new CreateSurvey();
@@ -15,7 +15,7 @@ export const mockCreateSurvey = (): ICreateSurvey => {
 export const mockLoadSurveys = (): ILoadSurveys => {
   class LoadSurveysStub implements ILoadSurveys {
     async load(): Promise<ISurvey[]> {
-      return new Promise((resolve) => resolve(mockSurveys()));
+      return Promise.resolve(mockSurveys());
     }
   }
   return new LoadSurveysStub();
@@ -24,7 +24,7 @@ export const mockLoadSurveys = (): ILoadSurveys => {
 export const mockLoadSurveyById = (): ILoadSurveyById => {
   class LoadSurveyByIdStub implements ILoadSurveyById {
     async loadById(id: string): Promise<ISurvey> {
-      return new Promise((resolve) => resolve(mockSurvey()));
+      return Promise.resolve(mockSurvey());
     }
   }
   return new LoadSurveyByIdStub();

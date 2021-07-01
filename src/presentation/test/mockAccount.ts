@@ -6,7 +6,7 @@ import { IAccount, ICreateAccount, ICreateAccountDTO } from '../controllers/logi
 export const mockCreateAccount = (): ICreateAccount => {
   class CreateAccountStub implements ICreateAccount {
     async create(account: ICreateAccountDTO): Promise<IAccount> {
-      return new Promise((resolve) => resolve(mockAccount()));
+      return Promise.resolve(mockAccount());
     }
   }
   return new CreateAccountStub();
@@ -15,7 +15,7 @@ export const mockCreateAccount = (): ICreateAccount => {
 export const mockAuthentication = (): IAuthentication => {
   class AuthenticationStub implements IAuthentication {
     async auth(authentication: IAuthenticationDTO): Promise<string> {
-      return new Promise((resolve) => resolve('any_token'));
+      return Promise.resolve('any_token');
     }
   }
   return new AuthenticationStub();
@@ -24,7 +24,7 @@ export const mockAuthentication = (): IAuthentication => {
 export const mockLoadAccountByToken = (): ILoadAccountByToken => {
   class LoadAccountByTokenStub implements ILoadAccountByToken {
     async load(accessToken: string, role?: string): Promise<IAccount> {
-      return new Promise((resolve) => resolve(mockAccount()));
+      return Promise.resolve(mockAccount());
     }
   }
   return new LoadAccountByTokenStub();

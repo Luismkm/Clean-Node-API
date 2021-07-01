@@ -4,7 +4,7 @@ import { ISaveSurveyResult, ISaveSurveyResultDTO, ISurveyResult } from '../contr
 export const mockSaveSurveyResult = (): ISaveSurveyResult => {
   class SaveSurveyResultStub implements ISaveSurveyResult {
     async save(data: ISaveSurveyResultDTO): Promise<ISurveyResult> {
-      return new Promise((resolve) => resolve(mockSurveyResult()));
+      return Promise.resolve(mockSurveyResult());
     }
   }
   return new SaveSurveyResultStub();

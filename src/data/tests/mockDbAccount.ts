@@ -8,7 +8,7 @@ import { IAccount, ICreateAccountDTO } from '../usecases/account/create-account/
 export const mockCreateAccountRepository = (): ICreateAccountRepository => {
   class CreateAccountRepositoryStub implements ICreateAccountRepository {
     async create(account: ICreateAccountDTO): Promise<IAccount> {
-      return new Promise((resolve) => resolve(mockAccount()));
+      return Promise.resolve(mockAccount());
     }
   }
   return new CreateAccountRepositoryStub();
@@ -17,7 +17,7 @@ export const mockCreateAccountRepository = (): ICreateAccountRepository => {
 export const mockLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
     async loadByEmail(email: string): Promise<IAccount> {
-      return new Promise((resolve) => resolve(mockAccount()));
+      return Promise.resolve(mockAccount());
     }
   }
   return new LoadAccountByEmailRepositoryStub();
@@ -26,7 +26,7 @@ export const mockLoadAccountByEmailRepository = (): ILoadAccountByEmailRepositor
 export const mockLoadAccountByTokenRepository = (): ILoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements ILoadAccountByTokenRepository {
     async loadByToken(token: string, role?: string): Promise<IAccount> {
-      return new Promise((resolve) => resolve(mockAccount()));
+      return Promise.resolve(mockAccount());
     }
   }
   return new LoadAccountByTokenRepositoryStub();
@@ -35,7 +35,7 @@ export const mockLoadAccountByTokenRepository = (): ILoadAccountByTokenRepositor
 export const mockUpdateAccessTokenRepository = (): IUpdateAccessTokenRepository => {
   class UpdateAccessTokenRepositoryStub implements IUpdateAccessTokenRepository {
     async updateAccessToken(id: string, token: string): Promise<void> {
-      return new Promise((resolve) => resolve());
+      return Promise.resolve();
     }
   }
   return new UpdateAccessTokenRepositoryStub();
