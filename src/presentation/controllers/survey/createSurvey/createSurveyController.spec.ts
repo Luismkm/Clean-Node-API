@@ -1,6 +1,7 @@
 import MockDate from 'mockdate';
 
 import { throwError } from '../../../../domain/test';
+import { mockValidation } from '../../../../validation/tests';
 import { CreateSurveyController } from './CreateSurveyController';
 import { badRequest, noContent, serverError } from '../../../helpers/http/http-helper';
 
@@ -8,8 +9,8 @@ import {
   IHttpRequest,
   IValidation,
   ICreateSurvey,
-  ICreateSurveyDTO,
 } from './createSurveyControllerProtocols';
+import { mockCreateSurvey } from '../../../test/mockSurvey';
 
 const makeFakeRequest = (): IHttpRequest => ({
   body: {
@@ -22,24 +23,6 @@ const makeFakeRequest = (): IHttpRequest => ({
   },
 });
 
-const makeCreateSurvey = (): ICreateSurvey => {
-  class CreateSurvey implements ICreateSurvey {
-    async create(data: ICreateSurveyDTO): Promise<void> {
-      return new Promise((resolve) => resolve());
-    }
-  }
-  return new CreateSurvey();
-};
-
-const makeValidationStub = (): IValidation => {
-  class ValidationStub implements IValidation {
-    validate(input: any): Error {
-      return null;
-    }
-  }
-  return new ValidationStub();
-};
-
 type ISutTypes = {
   sut: CreateSurveyController
   validationStub: IValidation
@@ -47,8 +30,8 @@ type ISutTypes = {
 }
 
 const makeSut = (): ISutTypes => {
-  const validationStub = makeValidationStub();
-  const createSurveyStub = makeCreateSurvey();
+  const validationStub = mockValidation();
+  const createSurveyStub = mockCreateSurvey();
   const sut = new CreateSurveyController(validationStub, createSurveyStub);
   return {
     sut,

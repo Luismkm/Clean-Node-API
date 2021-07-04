@@ -1,40 +1,10 @@
 import { DbCreateAccount } from './DbCreateAccount';
 import { mockAccount, mockAccountDTO, throwError } from '../../../../domain/test';
+import { mockHasher, mockCreateAccountRepository, mockLoadAccountByEmailRepository } from '../../../tests';
 
 import { ICreateAccountRepository } from '../../../protocols/db/account/ICreateAccountRepository';
-import {
-  IHasher,
-  ICreateAccountDTO,
-  IAccount,
-} from './DbCreateAccountProtocols';
 import { ILoadAccountByEmailRepository } from '../../../protocols/db/account/ILoadAccountByEmailRepository';
-
-const makeHasher = (): IHasher => {
-  class HasherStub implements IHasher {
-    async hash(value: string): Promise<string> {
-      return new Promise((resolve) => resolve('hashed_password'));
-    }
-  }
-  return new HasherStub();
-};
-
-const makeCreateAccountRepository = (): ICreateAccountRepository => {
-  class CreateAccountRepositoryStub implements ICreateAccountRepository {
-    async create(account: ICreateAccountDTO): Promise<IAccount> {
-      return new Promise((resolve) => resolve(mockAccount()));
-    }
-  }
-  return new CreateAccountRepositoryStub();
-};
-
-const makeLoadAccountByEmailRepository = (): ILoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub implements ILoadAccountByEmailRepository {
-    async loadByEmail(email: string): Promise<IAccount> {
-      return new Promise((resolve) => resolve(null));
-    }
-  }
-  return new LoadAccountByEmailRepositoryStub();
-};
+import { IHasher, IAccount } from './DbCreateAccountProtocols';
 
 type ISutTypes = {
   sut: DbCreateAccount
@@ -44,9 +14,11 @@ type ISutTypes = {
 }
 
 const makeSut = (): ISutTypes => {
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
-  const hasherStub = makeHasher();
-  const createAccountRepositoryStub = makeCreateAccountRepository();
+  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepository();
+  jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
+    .mockReturnValue(Promise.resolve(null));
+  const hasherStub = mockHasher();
+  const createAccountRepositoryStub = mockCreateAccountRepository();
   const sut = new DbCreateAccount(
     hasherStub,
     createAccountRepositoryStub,
@@ -106,7 +78,7 @@ describe('DbCreateAccount Usecase', () => {
   it('Should return null if LoadAccountByEmailRepository not return null ', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut();
     jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(mockAccount())));
+      .mockReturnValueOnce(Promise.resolve(mockAccount()));
     const account = await sut.create(mockAccountDTO());
     expect(account).toBeNull();
   });

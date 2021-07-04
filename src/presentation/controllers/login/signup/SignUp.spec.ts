@@ -1,26 +1,14 @@
 import { SignUpController } from './SignUp';
 import { throwError } from '../../../../domain/test';
 import { EmailInUseError, MissingParamError, ServerError } from '../../../errors';
+import { mockValidation } from '../../../../validation/tests';
+import { mockAuthentication, mockCreateAccount } from '../../../test';
 import {
   success, serverError, badRequest, forbidden,
 } from '../../../helpers/http/http-helper';
 
 import { IValidation } from '../../../protocols/IValidation';
-import {
-  IAccount,
-  ICreateAccountDTO,
-  ICreateAccount,
-  IHttpRequest,
-  IAuthentication,
-  IAuthenticationDTO,
-} from './signupProtocols';
-
-const makeFakeAccount = (): IAccount => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email',
-  password: 'valid_pasword',
-});
+import { ICreateAccount, IHttpRequest, IAuthentication } from './signupProtocols';
 
 const makeFakeRequest = (): IHttpRequest => ({
   body: {
@@ -31,33 +19,6 @@ const makeFakeRequest = (): IHttpRequest => ({
   },
 });
 
-const makeCreateAccount = (): ICreateAccount => {
-  class CreateAccountStub implements ICreateAccount {
-    async create(account: ICreateAccountDTO): Promise<IAccount> {
-      return new Promise((resolve) => resolve(makeFakeAccount()));
-    }
-  }
-  return new CreateAccountStub();
-};
-
-const makeAuthentication = (): IAuthentication => {
-  class AuthenticationStub implements IAuthentication {
-    async auth(authentication: IAuthenticationDTO): Promise<string> {
-      return new Promise((resolve) => resolve('any_token'));
-    }
-  }
-  return new AuthenticationStub();
-};
-
-const makeValidation = (): IValidation => {
-  class ValidationStub implements IValidation {
-    validate(input: any): Error {
-      return null;
-    }
-  }
-  return new ValidationStub();
-};
-
 type ISutTypes = {
   sut: SignUpController
   authenticationStub: IAuthentication
@@ -66,9 +27,9 @@ type ISutTypes = {
 }
 
 const makeSut = (): ISutTypes => {
-  const authenticationStub = makeAuthentication();
-  const createAccountStub = makeCreateAccount();
-  const validationStub = makeValidation();
+  const authenticationStub = mockAuthentication();
+  const createAccountStub = mockCreateAccount();
+  const validationStub = mockValidation();
 
   const sut = new SignUpController(createAccountStub, validationStub, authenticationStub);
   return {
@@ -102,7 +63,7 @@ describe('SignUp Controller', () => {
   it('Should return 403 if CreateAccount returns null', async () => {
     const { sut, createAccountStub } = makeSut();
     jest.spyOn(createAccountStub, 'create')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(null)));
+      .mockReturnValueOnce(Promise.resolve(null));
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()));
   });

@@ -1,4 +1,5 @@
 import { Collection } from 'mongodb';
+import { mockAccountDTO } from '../../../../domain/test';
 import { MongoHelper } from '../helpers/mongoHelper';
 import { AccountMongoRepository } from './AccountMongoRepository';
 
@@ -23,47 +24,35 @@ describe('Account Mongo Repository', () => {
 
   describe('add()', () => {
     it('Should return an account on create success', async () => {
-      const account = await sut.create({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      });
+      const account = await sut.create(mockAccountDTO());
       expect(account).toBeTruthy();
       expect(account.id).toBeTruthy();
       expect(account.name).toBe('any_name');
-      expect(account.email).toBe('any_email@mail.com');
+      expect(account.email).toBe('any_email');
       expect(account.password).toBe('any_password');
     });
   });
 
   describe('loadByEmail()', () => {
     it('Should return an account on loadByEmail success', async () => {
-      await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      });
-      const account = await sut.loadByEmail('any_email@mail.com');
+      await accountCollection.insertOne(mockAccountDTO());
+      const account = await sut.loadByEmail('any_email');
       expect(account).toBeTruthy();
       expect(account.id).toBeTruthy();
       expect(account.name).toBe('any_name');
-      expect(account.email).toBe('any_email@mail.com');
+      expect(account.email).toBe('any_email');
       expect(account.password).toBe('any_password');
     });
 
     it('Should return null if loadByEmail fails', async () => {
-      const account = await sut.loadByEmail('any_mail@mail.com');
+      const account = await sut.loadByEmail('any_mail');
       expect(account).toBeFalsy();
     });
   });
 
   describe('updateAccessToken()', () => {
     it('Should update the account accessToken on updateAccessToken success', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'any_name',
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      });
+      const res = await accountCollection.insertOne(mockAccountDTO());
       const fakeAccount = res.ops[0];
       expect(fakeAccount.accessToken).toBeFalsy();
       await sut.updateAccessToken(fakeAccount._id, 'any_token');
