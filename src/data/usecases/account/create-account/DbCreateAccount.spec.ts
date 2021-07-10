@@ -4,7 +4,7 @@ import { mockHasher, mockCreateAccountRepository, mockLoadAccountByEmailReposito
 
 import { ICreateAccountRepository } from '../../../protocols/db/account/ICreateAccountRepository';
 import { ILoadAccountByEmailRepository } from '../../../protocols/db/account/ILoadAccountByEmailRepository';
-import { IHasher, IAccount } from './DbCreateAccountProtocols';
+import { IHasher } from './DbCreateAccountProtocols';
 
 type ISutTypes = {
   sut: DbCreateAccount
