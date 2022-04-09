@@ -8,9 +8,7 @@ import {
 } from '../../../helpers/http/http-helper';
 
 import { IValidation } from '../../../protocols/IValidation';
-import {
-  IHttpRequest, IAuthentication,
-} from './loginControllerProtocols';
+import { IHttpRequest, IAuthentication } from './loginControllerProtocols';
 
 type ISutTypes = {
   sut: LoginController,
