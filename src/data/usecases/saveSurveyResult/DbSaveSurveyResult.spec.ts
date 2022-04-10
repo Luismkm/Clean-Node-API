@@ -1,7 +1,7 @@
 import MockDate from 'mockdate';
 
-import { mockSaveSurveyResultDTO, mockSurveyResult, throwError } from '../../../../domain/test';
-import { mockSaveSurveyResultRepository } from '../../../tests';
+import { mockSaveSurveyResultDTO, mockSurveyResult, throwError } from '../../../domain/test';
+import { mockSaveSurveyResultRepository } from '../../tests';
 import { DbSaveSurveyResult } from './DbSaveSurveyResult';
 
 import { ISaveSurveyResultRepository } from './DbSaveSurveyResultProtocols';
