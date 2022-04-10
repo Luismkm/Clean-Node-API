@@ -1,21 +1,11 @@
-import { ISurveyResult } from '../../../domain/models/ISurveyResult';
-import { mockSurveyResult } from '../../../domain/test';
 import { ILoadSurveyResultRepository } from '../../protocols/db/surveyResult/ILoadSurveyResultRepository';
+import { mockLoadSurveyResultRepository } from '../../tests';
 import { DbLoadSurveyResult } from './DbLoadSurveyResult';
 
 type ISutTypes = {
   sut: DbLoadSurveyResult
   loadSurveyResultRepositoryStub: ILoadSurveyResultRepository
 }
-
-const mockLoadSurveyResultRepository = (): ILoadSurveyResultRepository => {
-  class LoadSurveyResultRepositoryStub implements ILoadSurveyResultRepository {
-    async loadBySurveyId(surveyId: string): Promise<ISurveyResult> {
-      return Promise.resolve(mockSurveyResult());
-    }
-  }
-  return new LoadSurveyResultRepositoryStub();
-};
 
 const makeSut = (): ISutTypes => {
   const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepository();

@@ -2,6 +2,7 @@ import { ISaveSurveyResultRepository } from '../protocols/db/surveyResult/ISaveS
 import { ISaveSurveyResultDTO } from '../../domain/usecases/surveyResult/ISaveSurveyResult';
 import { ISurveyResult } from '../../domain/models/ISurveyResult';
 import { mockSurveyResult } from '../../domain/test';
+import { ILoadSurveyResultRepository } from '../protocols/db/surveyResult/ILoadSurveyResultRepository';
 
 export const mockSaveSurveyResultRepository = (): ISaveSurveyResultRepository => {
   class SaveSurveyResultRepositoryStub implements ISaveSurveyResultRepository {
@@ -10,4 +11,13 @@ export const mockSaveSurveyResultRepository = (): ISaveSurveyResultRepository =>
     }
   }
   return new SaveSurveyResultRepositoryStub();
+};
+
+export const mockLoadSurveyResultRepository = (): ILoadSurveyResultRepository => {
+  class LoadSurveyResultRepositoryStub implements ILoadSurveyResultRepository {
+    async loadBySurveyId(surveyId: string): Promise<ISurveyResult> {
+      return Promise.resolve(mockSurveyResult());
+    }
+  }
+  return new LoadSurveyResultRepositoryStub();
 };
