@@ -1,6 +1,4 @@
-import { ISurveyResult } from '../saveSurveyResult/DbSaveSurveyResultProtocols';
-import { ILoadSurveyResult } from '../../../domain/usecases/surveyResult/ILoadSurveyResult';
-import { ILoadSurveyResultRepository } from '../../protocols/db/surveyResult/ILoadSurveyResultRepository';
+import { ILoadSurveyResultRepository, ISurveyResult, ILoadSurveyResult } from './DbLoadSurveyResultProtocols';
 
 export class DbLoadSurveyResult implements ILoadSurveyResult {
   constructor(private readonly loadSurveyResultRepository: ILoadSurveyResultRepository) {}

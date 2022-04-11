@@ -1,4 +1,4 @@
-import { ILoadSurveyResultRepository } from '../../protocols/db/surveyResult/ILoadSurveyResultRepository';
+import { ILoadSurveyResultRepository } from './DbLoadSurveyResultProtocols';
 import { mockLoadSurveyResultRepository } from '../../tests';
 import { DbLoadSurveyResult } from './DbLoadSurveyResult';
 
