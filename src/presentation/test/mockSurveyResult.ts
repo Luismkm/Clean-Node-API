@@ -13,7 +13,7 @@ export const mockSaveSurveyResult = (): ISaveSurveyResult => {
 
 export const mockLoadSurveyResult = (): ILoadSurveyResult => {
   class LoadSurveyResultStub implements ILoadSurveyResult {
-    async load(surveyId: string): Promise<ISurveyResult> {
+    async load(surveyId: string, accountId: string): Promise<ISurveyResult> {
       return Promise.resolve(mockSurveyResult());
     }
   }
