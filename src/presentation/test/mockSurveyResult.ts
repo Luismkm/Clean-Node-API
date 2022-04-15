@@ -1,4 +1,5 @@
 import { mockSurveyResult } from '../../domain/test';
+import { ILoadSurveyResult } from '../../domain/usecases/surveyResult/ILoadSurveyResult';
 import { ISaveSurveyResult, ISaveSurveyResultDTO, ISurveyResult } from '../controllers/surveyResult/saveSurveyResult/saveSurveyResultControllerProtocols';
 
 export const mockSaveSurveyResult = (): ISaveSurveyResult => {
@@ -8,4 +9,13 @@ export const mockSaveSurveyResult = (): ISaveSurveyResult => {
     }
   }
   return new SaveSurveyResultStub();
+};
+
+export const mockLoadSurveyResult = (): ILoadSurveyResult => {
+  class LoadSurveyResultStub implements ILoadSurveyResult {
+    async load(surveyId: string, accountId: string): Promise<ISurveyResult> {
+      return Promise.resolve(mockSurveyResult());
+    }
+  }
+  return new LoadSurveyResultStub();
 };
