@@ -15,11 +15,13 @@ export const mockSurveyResult = (): ISurveyResult => ({
     answer: 'any_answer',
     count: 1,
     percent: 50,
+    isCurrentAccountAnswer: true,
   }, {
     answer: 'other_answer',
     image: 'any_image',
     count: 10,
     percent: 80,
+    isCurrentAccountAnswer: false,
   }],
   date: new Date(),
 });
