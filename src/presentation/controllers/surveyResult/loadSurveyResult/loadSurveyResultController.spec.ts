@@ -1,3 +1,5 @@
+import MockDate from 'mockdate';
+
 import { mockLoadSurveyById, mockLoadSurveyResult } from '../../../test';
 import { IHttpRequest, ILoadSurveyById, ILoadSurveyResult } from './loadSurveyResultControllerProtocols';
 import { LoadSurveyResultController } from './loadSurveyResultController';
@@ -8,6 +10,7 @@ import { mockSurveyResult, throwError } from '../../../../domain/test';
 const makeFakeRequest = (): IHttpRequest => ({
   params: {
     surveyId: 'any_id',
+    accountId: 'account_id',
   },
 });
 
@@ -29,6 +32,13 @@ const makeSut = (): ISutTypes => {
 };
 
 describe('LoadSurveyResult Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    MockDate.reset();
+  });
   it('Should call LoadSurveyById with correct value', async () => {
     const { sut, loadSurveyByIdStub } = makeSut();
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById');
@@ -50,11 +60,11 @@ describe('LoadSurveyResult Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()));
   });
 
-  it('Should call LoadSurveyResult with correct value', async () => {
+  it('Should call LoadSurveyResult with correct values', async () => {
     const { sut, loadSurveyResultStub } = makeSut();
     const loadSpy = jest.spyOn(loadSurveyResultStub, 'load');
     await sut.handle(makeFakeRequest());
-    expect(loadSpy).toHaveBeenCalledWith('any_id');
+    expect(loadSpy).toHaveBeenCalledWith('any_id', 'account_id');
   });
 
   it('Should return 500 if LoadSurveyResult throws', async () => {
